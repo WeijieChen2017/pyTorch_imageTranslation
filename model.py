@@ -42,10 +42,10 @@ def convBlock(in_channels, out_channels, num_groups, conv_type, norm_type, acti_
         convBlock.append(["LeakyReLU", LeakyReLU()])
 
     # debug print
-    for item in convBlock:
-        name = item[0]
-        layer = item[1]
-        print(name)
+    # for item in convBlock:
+    #     name = item[0]
+    #     layer = item[1]
+    #     print(name)
 
     return convBlock
 
