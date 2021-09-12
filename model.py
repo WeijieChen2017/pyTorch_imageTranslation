@@ -1,6 +1,6 @@
 from torch.nn import Conv3d, ConvTranspose3d
 from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
-from torch.nn import ELU, LeakyReLU, ReLU, Linear, LazyLinear
+from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 from torch import nn
 
@@ -155,7 +155,8 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
                                     kernel_size=3,
                                     groups=num_groups,
                                     padding=1)])
-    unet3d.append(["LazyLinear", LazyLinear(out_features = block_size)])
+    unet3d.append(["Linear", Linear(in_features = block_size,
+                                    out_features = block_size)])
 
     # flatten the list of layer
     unet3d_flatten = []
