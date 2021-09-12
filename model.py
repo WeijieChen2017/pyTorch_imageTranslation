@@ -140,8 +140,7 @@ def unet3d(num_start_filters=16, num_groups=1):
 
     return unet3d_flatten
 
-
-
+net = Net()
 
 
 
