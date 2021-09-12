@@ -6,9 +6,14 @@ from torch import nn
 
 class Net(nn.Module):
 
-    def __init__(self):
+    def __init__(self, block_size=64, num_filters=16, num_level=2):
         super(Net, self).__init__()
-        self.net_list = unet3d()
+        self.block_size = block_size
+        self.num_filters = num_filters
+        self.num_level = num_level
+        self.net_list = unet3d(self.block_size, 
+                               self.num_filters,
+                               self.num_level)
 
     def forward(self, x):
         for item in self.net_list:
@@ -70,7 +75,7 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     return convBlock
 
-def unet3d(num_filters=16, num_level=2, num_groups=1):
+def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
 
     unet3d = []
 
@@ -144,7 +149,7 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                                     kernel_size=3,
                                     groups=num_groups,
                                     padding=1)])
-    unet3d.append(["LazyLinear", LazyLinear(out_features = 64)])
+    unet3d.append(["LazyLinear", LazyLinear(out_features = block_size)])
 
     # flatten the list of layer
     unet3d_flatten = []

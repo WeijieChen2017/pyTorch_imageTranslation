@@ -2,7 +2,7 @@ from model import Net
 import torch
 
 
-net = Net()
+net = Net(block_size=64, num_filters=16, num_level=2)
 print(net)
 
 # params = list(net.parameters())
