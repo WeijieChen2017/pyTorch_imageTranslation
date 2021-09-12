@@ -8,15 +8,15 @@ def network_visualization(network):
         name = item[0]
         layer = item[1]
         if name == "Conv3d":
-            print("\33[44m", layer)
+            print("\33[34m", layer)
         elif "Norm" in name:
-            print("\33[43m", layer)
+            print("\33[33m", layer)
         elif "LU" in name:
-            print("\33[42m", layer)
+            print("\33[32m", layer)
         elif "Pool" in name or "Trans" in name:
-            print("\33[41m", layer)
+            print("\33[31m", layer)
         else:
-            print("\33[7m", layer)
+            print("\33[35m", layer)
 
 
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
