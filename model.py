@@ -2,6 +2,7 @@ from torch.nn import Conv3d, ConvTranspose3d
 from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
 from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
+from torch import nn
 
 class Net(nn.Module):
 
