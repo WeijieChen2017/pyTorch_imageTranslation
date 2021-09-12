@@ -95,7 +95,8 @@ def unet3d(num_start_filters=16):
                                     out_features = 1)])
 
     # flatten the list of layer
-    print(unet3d)
+    for item in unet3d:
+        print(item)
     unet3d_flatten = []
     for item in unet3d:
         if isinstance(item[0], list):
