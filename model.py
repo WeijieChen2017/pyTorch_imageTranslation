@@ -3,6 +3,8 @@ from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
 from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 
+from termcolor import colored
+
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     convBlock = []
@@ -108,7 +110,8 @@ def unet3d(num_start_filters=16, num_groups=1):
     for item in unet3d_flatten:
         name = item[0]
         layer = item[1]
-        print(layer)
+        if name == "Conv3d":
+            print(colored(layer, "green"))
 
 unet3d()
 
