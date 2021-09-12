@@ -96,7 +96,7 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
         unet3d.append(block)
-        unet3d.append(["MaxPool3d", MaxPool3d(kernel_size=3, stride=2)])
+        unet3d.append(["MaxPool3d", MaxPool3d(kernel_size=3, stride=2, padding=1)])
         num_filters = num_filters * 2
 
     # lowest learning
@@ -122,7 +122,8 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                                                       out_channels=num_filters,
                                                       kernel_size=3,
                                                       groups=num_groups,
-                                                      stride=2)])
+                                                      stride=2,
+                                                      padding=1)])
         unet3d.append(block)
         unet3d.append(block)
         block = convBlock(in_channels = num_filters,
@@ -135,7 +136,8 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
     unet3d.append(["Conv3d", Conv3d(in_channels=num_filters,
                                     out_channels=num_filters,
                                     kernel_size=3,
-                                    groups=num_groups)])
+                                    groups=num_groups,
+                                    padding=1)])
     unet3d.append(["Linear", Linear(in_features = num_filters,
                                     out_features = 1)])
 
