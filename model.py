@@ -29,6 +29,16 @@ class Net(nn.Module):
             x = layer(x)
         return x
 
+    def summary(self, x):
+        print("\33[0m", "-"*25, "Start", "-"*25)
+        for item in self.net_list:
+            name, layer = item
+            print(x.size())
+            color_layer(item)
+        print(x.size())
+        print("\33[0m", "-"*25, "Over!", "-"*25)
+
+
 def color_layer(item):
     name = item[0]
     layer = item[1]
