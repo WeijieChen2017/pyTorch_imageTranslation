@@ -1,6 +1,10 @@
- from torch.utils.data import Dataset
+from torch.utils.data import Dataset
 
- class DatasetFromFolder(data.Dataset):
+import os
+import glob
+import numpy as np
+
+class DatasetFromFolder(data.Dataset):
     def __init__(self, data_dir_X, data_dir_Y, batch_size, shuffle=False):
         super(DatasetFromFolder, self).__init__()
         self.filenames_X = sorted(glob(os.path.join(data_dir_X,'*.npy'),recursive=True))
@@ -13,15 +17,15 @@
             random.shuffle(temp)
             self.filenames_X, self.filenames_Y = zip(*temp)
 
-    def __getitem__(self, index):
+def __getitem__(self, index):
 
-        batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
-        batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
+    batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
+    batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
-        batch_x = np.array( [ np.load(fn) for fn in batch_x_fns ] )
-        batch_y = np.array( [ np.load(fn) for fn in batch_y_fns ] )
+    batch_x = np.array( [ np.load(fn) for fn in batch_x_fns ] )
+    batch_y = np.array( [ np.load(fn) for fn in batch_y_fns ] )
 
-        return batch_x, batch_y
+    return batch_x, batch_y
 
-    def __len__(self):
-        return len(self.filenames_X // self.batch_size)
+def __len__(self):
+    return len(self.filenames_X // self.batch_size)
