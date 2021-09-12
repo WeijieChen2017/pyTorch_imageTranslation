@@ -81,7 +81,7 @@ trainList = ['./data_train/NPR_SRC/NPR_051.nii.gz',
              './data_train/NPR_SRC/NPR_056.nii.gz',
              './data_train/NPR_SRC/NPR_057.nii.gz']
 valList = ['./data_train/NPR_SRC/NPR_059.nii.gz']
-valList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
+testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 
 print('-'*50)
 print("Training list: ", trainList)
