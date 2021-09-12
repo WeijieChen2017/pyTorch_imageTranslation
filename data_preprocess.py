@@ -43,7 +43,7 @@ testRatio = 0.1
 channelX = 1
 channelY = 1
 block_size = 64
-stride = 16
+stride = 32
 
 # create directory and search nifty files
 trainFolderX = "./data_train/X/train/"
