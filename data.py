@@ -4,7 +4,7 @@ import os
 import glob
 import numpy as np
 
-class DatasetFromFolder(data.Dataset):
+class DatasetFromFolder(Dataset):
     def __init__(self, data_dir_X, data_dir_Y, batch_size, shuffle=False):
         super(DatasetFromFolder, self).__init__()
         self.filenames_X = sorted(glob(os.path.join(data_dir_X,'*.npy'),recursive=True))
