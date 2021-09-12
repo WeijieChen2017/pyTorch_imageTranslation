@@ -46,7 +46,8 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
     convBlock.append(["Conv3d", Conv3d(in_channels=in_channels,
                                        out_channels=out_channels,
                                        kernel_size=3,
-                                       groups=num_groups)])
+                                       groups=num_groups,
+                                       padding=1)])
     # add norm layer
     if norm_type == "batch":
         # num_features
