@@ -19,7 +19,6 @@ class Net(nn.Module):
         return x
 
 def color_layer(item):
-    print(item)
     name = item[0]
     layer = item[1]
     if name == "Conv3d":
@@ -35,7 +34,6 @@ def color_layer(item):
 
 def network_visualization(network):
     for item in network:
-        print(item)
         color_layer(item)
 
 
