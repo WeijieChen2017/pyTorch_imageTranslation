@@ -16,6 +16,7 @@ parser.add_argument('--epochs', type=int, default=10, help='number of epochs to 
 parser.add_argument('--lr', type=float, default=0.01, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=4, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
+parser.add_argument('--cuda', action='store_true', help='use cuda?')
 parser.add_argument('--block_size', type=int, default=64, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
