@@ -3,6 +3,18 @@ from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
 from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 
+class Net(nn.Module):
+
+    def __init__(self):
+        super(Net, self).__init__()
+        self.net_list = unet3d()
+
+    def forward(self, x):
+        for item in self.net_list:
+            name, layer = item
+            x = layer(x)
+        return x
+
 def network_visualization(network):
     for item in network:
         name = item[0]
@@ -125,7 +137,9 @@ def unet3d(num_start_filters=16, num_groups=1):
             unet3d_flatten.append(item)
     network_visualization(unet3d_flatten)
 
-unet3d()
+    return unet3d_flatten
+
+
 
 
 
