@@ -13,23 +13,28 @@ class Net(nn.Module):
     def forward(self, x):
         for item in self.net_list:
             name, layer = item
+            color_layer(layer)
+            print(x.size())
             x = layer(x)
         return x
 
+def color_layer(item):
+    name = item[0]
+    layer = item[1]
+    if name == "Conv3d":
+        print("\33[34m", layer)
+    elif "Norm" in name:
+        print("\33[33m", layer)
+    elif "LU" in name:
+        print("\33[32m", layer)
+    elif "Pool" in name or "Trans" in name:
+        print("\33[31m", layer)
+    else:
+        print("\33[35m", layer)
+
 def network_visualization(network):
     for item in network:
-        name = item[0]
-        layer = item[1]
-        if name == "Conv3d":
-            print("\33[34m", layer)
-        elif "Norm" in name:
-            print("\33[33m", layer)
-        elif "LU" in name:
-            print("\33[32m", layer)
-        elif "Pool" in name or "Trans" in name:
-            print("\33[31m", layer)
-        else:
-            print("\33[35m", layer)
+        color_layer(item)
 
 
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
@@ -141,7 +146,7 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                 unet3d_flatten.append(elem)
         else:
             unet3d_flatten.append(item)
-    network_visualization(unet3d_flatten)
+    # network_visualization(unet3d_flatten)
 
     return unet3d_flatten
 
