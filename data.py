@@ -28,4 +28,4 @@ class DatasetFromFolder(Dataset):
         return batch_x, batch_y
 
     def __len__(self):
-        return len(self.filenames_X // self.batch_size)
+        return len(self.filenames_X) // self.batch_size
