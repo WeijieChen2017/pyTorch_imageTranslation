@@ -13,8 +13,8 @@ class Net(nn.Module):
     def forward(self, x):
         for item in self.net_list:
             name, layer = item
-            color_layer(item)
             print(x.size())
+            color_layer(item)
             x = layer(x)
         return x
 
