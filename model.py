@@ -123,7 +123,8 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                                                       kernel_size=3,
                                                       groups=num_groups,
                                                       stride=2,
-                                                      padding=1)])
+                                                      padding=1,
+                                                      output_padding=1)])
         unet3d.append(block)
         unet3d.append(block)
         block = convBlock(in_channels = num_filters,
