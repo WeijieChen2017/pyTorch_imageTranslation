@@ -69,12 +69,19 @@ fileList = np.asarray(fileList)
 np.random.shuffle(fileList)
 fileList = list(fileList)
 
-valList = fileList[:int(len(fileList)*valRatio)]
-valList.sort()
-testList = fileList[-int(len(fileList)*testRatio):]
-testList.sort()
-trainList = list(set(fileList) - set(valList) - set(testList))
-trainList.sort()
+# valList = fileList[:int(len(fileList)*valRatio)]
+# valList.sort()
+# testList = fileList[-int(len(fileList)*testRatio):]
+# testList.sort()
+# trainList = list(set(fileList) - set(valList) - set(testList))
+# trainList.sort()
+
+trainList = ['./data_train/NPR_SRC/NPR_051.nii.gz',
+             './data_train/NPR_SRC/NPR_054.nii.gz',
+             './data_train/NPR_SRC/NPR_056.nii.gz',
+             './data_train/NPR_SRC/NPR_057.nii.gz']
+valList = ['./data_train/NPR_SRC/NPR_059.nii.gz']
+valList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 
 print('-'*50)
 print("Training list: ", trainList)
@@ -84,11 +91,10 @@ print('-'*50)
 print("Testing list: ", testList)
 print('-'*50)
 
+packageTrain = [trainList, trainFolderX, trainFolderY, "Train"]
 packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
-packageTrain = [trainList, trainFolderX, trainFolderY, "Train"]
 np.save("testList.npy", testList)
-
 
 for package in [packageTest, packageVal, packageTrain]:
     fileList = package[0]
