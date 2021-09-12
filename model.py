@@ -70,6 +70,13 @@ def unet3d(num_start_filters=16, num_groups=1):
     num_filters = num_start_filters
     num_level = 3
 
+    block = convBlock(in_channels = 1,
+                      out_channels = num_filters,
+                      num_groups = num_groups,
+                      norm_type = "batch",
+                      acti_type = "LeakyReLU")
+    unet3d.append(block)
+
     # encoder
     for idx in range(num_level):
         block = convBlock(in_channels = num_filters,
