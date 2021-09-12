@@ -1,8 +1,8 @@
 from torch.utils.data import Dataset
 
 import os
-import glob
 import numpy as np
+from glob import glob
 
 class DatasetFromFolder(Dataset):
     def __init__(self, data_dir_X, data_dir_Y, batch_size, shuffle=False):
