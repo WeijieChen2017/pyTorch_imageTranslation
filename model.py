@@ -20,7 +20,7 @@ def convBlock(in_channels, out_channels, num_groups, conv_type, norm_type, acti_
                                                          out_channels=out_channels,
                                                          kernel_size=3,
                                                          groups=num_groups,
-                                                         strides=2)])
+                                                         stride=2)])
     # add norm layer
     if norm_type == "batch":
         # num_features
