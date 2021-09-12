@@ -3,24 +3,17 @@ from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
 from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 
-def convBlock(in_channels, out_channels, num_groups, conv_type, norm_type, acti_type):
+def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     convBlock = []
 
     # add conv layer
-    if conv_type == "conv":
-        # input size (N,C,D,H,W)
-        convBlock.append(["Conv3d", Conv3d(in_channels=in_channels,
-                                           out_channels=out_channels,
-                                           kernel_size=3,
-                                           groups=num_groups)])
-    elif conv_type == "convT":
-        # input size (N,C,D,H,W)
-        convBlock.append(["ConvTrans3d", ConvTranspose3d(in_channels=in_channels,
-                                                         out_channels=out_channels,
-                                                         kernel_size=3,
-                                                         groups=num_groups,
-                                                         stride=2)])
+    # input size (N,C,D,H,W)
+    convBlock.append(["Conv3d", Conv3d(in_channels=in_channels,
+                                       out_channels=out_channels,
+                                       kernel_size=3,
+                                       groups=num_groups)])
+
     # add norm layer
     if norm_type == "batch":
         # num_features
@@ -60,7 +53,6 @@ def unet3d(num_start_filters=16):
         block = convBlock(in_channels = num_filters,
                           out_channels = num_filters * 2,
                           num_groups = 1,
-                          conv_type = "conv",
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
         unet3d.append(block)
@@ -71,7 +63,6 @@ def unet3d(num_start_filters=16):
     block = convBlock(in_channels = num_filters,
                       out_channels = num_filters * 2,
                       num_groups = 1,
-                      conv_type = "conv",
                       norm_type = "batch",
                       acti_type = "LeakyReLU")
     unet3d.append(block)
@@ -85,10 +76,13 @@ def unet3d(num_start_filters=16):
         block = convBlock(in_channels = num_filters * 2,
                           out_channels = num_filters,
                           num_groups = 1,
-                          conv_type = "convT",
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
-        unet3d.append(["MaxPool3d", MaxPool3d(kernel_size=3, stride=2)])
+        unet3d.append(["ConvTrans3d", ConvTranspose3d(in_channels=num_filters,
+                                                      out_channels=num_filters,
+                                                      kernel_size=3,
+                                                      groups=num_groups,
+                                                      stride=2)])
         unet3d.append(block)
         num_filters = num_filters // 2
     unet3d.append(["Linear", Linear(in_features = num_start_filters,
