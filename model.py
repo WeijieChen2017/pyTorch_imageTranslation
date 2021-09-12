@@ -64,11 +64,9 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     return convBlock
 
-def unet3d(num_start_filters=16, num_groups=1):
+def unet3d(num_filters=16, num_level=2, num_groups=1):
 
     unet3d = []
-    num_filters = num_start_filters
-    num_level = 3
 
     block = convBlock(in_channels = 1,
                       out_channels = num_filters,
