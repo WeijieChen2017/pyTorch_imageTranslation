@@ -19,6 +19,7 @@ class Net(nn.Module):
         return x
 
 def color_layer(item):
+    print(item)
     name = item[0]
     layer = item[1]
     if name == "Conv3d":
