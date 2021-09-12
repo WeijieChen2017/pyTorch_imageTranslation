@@ -42,7 +42,7 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     return convBlock
 
-def unet3d(num_start_filters=16):
+def unet3d(num_start_filters=16, num_groups=1):
 
     unet3d = []
     num_filters = num_start_filters
@@ -52,7 +52,7 @@ def unet3d(num_start_filters=16):
     for idx in range(num_level):
         block = convBlock(in_channels = num_filters,
                           out_channels = num_filters * 2,
-                          num_groups = 1,
+                          num_groups = num_groups,
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
         unet3d.append(block)
@@ -62,7 +62,7 @@ def unet3d(num_start_filters=16):
     # lowest learning
     block = convBlock(in_channels = num_filters,
                       out_channels = num_filters * 2,
-                      num_groups = 1,
+                      num_groups = num_groups,
                       norm_type = "batch",
                       acti_type = "LeakyReLU")
     unet3d.append(block)
@@ -75,7 +75,7 @@ def unet3d(num_start_filters=16):
     for idx in range(num_level):
         block = convBlock(in_channels = num_filters * 2,
                           out_channels = num_filters,
-                          num_groups = 1,
+                          num_groups = num_groups,
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
         unet3d.append(["ConvTrans3d", ConvTranspose3d(in_channels=num_filters,
