@@ -10,6 +10,6 @@ print(net)
 # print(params[0].size())
 
 # (N,C,D,H,W)
-input = torch.randn(4, 1, 32, 32, 32)
+input = torch.randn(4, 1, 64, 64, 64)
 out = net(input)
 print(out)
