@@ -6,7 +6,7 @@ from torch import nn
 
 class Net(nn.Module):
 
-    def __init__(self, block_size=64, num_filters=16, num_level=2):
+    def __init__(self, block_size=64, num_filters=16, num_level=2, verbose=False):
         super(Net, self).__init__()
         self.block_size = block_size
         self.num_filters = num_filters
@@ -14,12 +14,18 @@ class Net(nn.Module):
         self.net_list = unet3d(self.block_size, 
                                self.num_filters,
                                self.num_level)
-
-    def forward(self, x):
+        if verbose:
+            network_visualization(self.net_list)
+        
+        self.network_name = []
+        self.network_layer = []
         for item in self.net_list:
             name, layer = item
-            print(x.size())
-            color_layer(item)
+            self.network_name.append(name)
+            self.network_layer.append(layer)
+
+    def forward(self, x):
+        for layer in self.network_layer:
             x = layer(x)
         return x
 
@@ -37,8 +43,8 @@ def color_layer(item):
     else:
         print("\33[35m", layer)
 
-def network_visualization(network):
-    for item in network:
+def network_visualization(network_list):
+    for item in network_list:
         color_layer(item)
 
 
