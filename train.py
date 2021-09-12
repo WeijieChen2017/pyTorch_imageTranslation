@@ -1,4 +1,5 @@
 from model import Net
+import torch
 
 
 net = Net()
