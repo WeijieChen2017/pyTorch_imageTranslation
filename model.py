@@ -44,8 +44,10 @@ def color_layer(item):
         print("\33[35m", layer)
 
 def network_visualization(network_list):
+    print("\33[0m", "-"*25, "Start", "-"*25)
     for item in network_list:
         color_layer(item)
+    print("\33[0m", "-"*25, "Over!", "-"*25)
 
 
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
