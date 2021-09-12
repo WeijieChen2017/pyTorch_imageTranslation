@@ -82,7 +82,9 @@ def unet3d(num_start_filters=16, num_groups=1):
                       norm_type = "batch",
                       acti_type = "LeakyReLU")
     unet3d.append(block)
+    unet3d.append(block)
     unet3d.append(["Dropout3d", Dropout3d()])
+    unet3d.append(block)
     unet3d.append(block)
 
     # decoder
