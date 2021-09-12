@@ -144,8 +144,8 @@ def unet3d(num_filters=16, num_level=2, num_groups=1):
                                     kernel_size=3,
                                     groups=num_groups,
                                     padding=1)])
-    unet3d.append(["Linear", Linear(in_features = 1,
-                                    out_features = 1)])
+    unet3d.append(["Linear", Linear(in_features = num_filters,
+                                    out_features = num_filters)])
 
     # flatten the list of layer
     unet3d_flatten = []
