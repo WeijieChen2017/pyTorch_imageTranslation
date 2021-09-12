@@ -35,6 +35,7 @@ def color_layer(item):
 
 def network_visualization(network):
     for item in network:
+        print(item)
         color_layer(item)
 
 
