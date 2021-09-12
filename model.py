@@ -3,6 +3,22 @@ from torch.nn import BatchNorm3d, GroupNorm, InstanceNorm3d
 from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 
+def network_visualization(network):
+    for item in network:
+        name = item[0]
+        layer = item[1]
+        if name == "Conv3d":
+            print("\33[44m", layer)
+        elif "Norm" in name:
+            print("\33[43m", layer)
+        elif "LU" in name:
+            print("\33[42m", layer)
+        elif "Pool" in name or "Trans" in name:
+            print("\33[41m", layer)
+        else:
+            print("\33[7m", layer)
+
+
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     convBlock = []
@@ -18,7 +34,7 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
         # num_features
         convBlock.append(["BatchNorm3d", BatchNorm3d(num_features=out_channels)])
     elif norm_type == "group":
-        convBlock.append(["BatchNorm3d", GroupNorm(num_groups=num_groups,
+        convBlock.append(["GroupNorm", GroupNorm(num_groups=num_groups,
                                                    num_features=out_channels)])
     elif norm_type == "instance":
         convBlock.append(["InstanceNorm3d", InstanceNorm3d(num_features=out_channels)])
@@ -105,11 +121,7 @@ def unet3d(num_start_filters=16, num_groups=1):
                 unet3d_flatten.append(elem)
         else:
             unet3d_flatten.append(item)
-    for item in unet3d_flatten:
-        name = item[0]
-        layer = item[1]
-        if name == "Conv3d":
-            print("\33[44m" + name, layer)
+    network_visualization(unet3d_flatten)
 
 unet3d()
 
