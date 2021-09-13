@@ -27,9 +27,9 @@ class DatasetFromFolder(Dataset):
         # print(np.load(batch_x_fns[0]).shape)
 
         batch_x = np.array( [ np.load(fn) for fn in batch_x_fns ] )
-        batch_x = np.expand_dims(batch_x, 0)
+        # batch_x = np.expand_dims(batch_x, 0)
         batch_y = np.array( [ np.load(fn) for fn in batch_y_fns ] )
-        batch_y = np.expand_dims(batch_y, 0)
+        # batch_y = np.expand_dims(batch_y, 0)
 
         # print(batch_x.shape)
 
