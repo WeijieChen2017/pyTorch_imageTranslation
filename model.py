@@ -26,7 +26,7 @@ class Net(nn.Module):
 
     def forward(self, x):
         for layer in self.network_layer:
-            x = layer(x.Double())
+            x = layer(x.double())
         return x
 
     def summary(self, x):
