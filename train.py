@@ -57,8 +57,7 @@ print("===> Datasets and Dataloders are set")
 # build the network
 model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
-            num_level = opt.depth).float()
-model.to(device)
+            num_level = opt.depth).to(device)
 criterion = nn.HuberLoss
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 print("===> The network, loss, optimizer are set")
@@ -71,7 +70,7 @@ for epoch in range(opt.epochs):
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         optimizer.zero_grad()
-        loss = criterion(model(batch_x), batch_y)
+        loss = criterion(model(batch_x.double()), batch_y.double())
         epoch_loss += loss.item()
         loss.backward()
         optimizer.step()
