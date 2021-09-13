@@ -52,15 +52,16 @@ dataloader_val = DataLoader(dataset=dataset_val,
                             num_workers=opt.data_worker,
                             batch_size=opt.batch_size,
                             shuffle=True)
-print("Datasets and Dataloders are set")
+print("===> Datasets and Dataloders are set")
 
 # build the network
 model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
-            num_level = opt.depth).to(device)
+            num_level = opt.depth).float()
+model.to(device)
 criterion = nn.HuberLoss
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
-print("The network, loss, optimizer are set")
+print("===> The network, loss, optimizer are set")
 
 # start the training
 
