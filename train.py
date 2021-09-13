@@ -59,7 +59,7 @@ model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
             num_level = opt.depth).to(device)
 model.double()
-criterion = nn.HuberLoss
+criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 print("===> The network, loss, optimizer are set")
 
@@ -75,7 +75,7 @@ for epoch in range(opt.epochs):
         # print(batch_x.type())
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
-        epoch_loss += loss
+        epoch_loss += loss.item()
         loss.backward()
         optimizer.step()
 
