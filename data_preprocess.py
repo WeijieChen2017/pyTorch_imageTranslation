@@ -42,7 +42,7 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 64
+block_size = 32
 stride = 32
 
 # create directory and search nifty files

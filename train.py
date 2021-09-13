@@ -83,6 +83,10 @@ for epoch in range(opt.epochs):
 
     print("===> Epoch {} Complete: Avg. Loss: {:.4f}".format(epoch, epoch_loss / len(dataloader_train)))
 
+    model_save_path = "model_epoch_{}.pth".format(epoch)
+    torch.save(model, model_save_path)
+    print("Checkpoint saved to {}".format(model_save_path))
+
 # # (N,C,D,H,W)
 # input = torch.randn(4, 1, 64, 64, 64)
 # model.summary(input)
