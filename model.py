@@ -18,7 +18,7 @@ class Net(nn.Module):
             network_visualization(self.net_list)
         
         self.network_name = []
-        self.network_layer = []
+        self.network_layer = nn.ModuleList
         for item in self.net_list:
             name, layer = item
             self.network_name.append(name)
