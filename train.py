@@ -71,7 +71,7 @@ for epoch in range(opt.epochs):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         # batch_x = torch.from_numpy(batch_x).double()
         # batch_y = torch.from_numpy(batch_y).double()
-        print(type(batch_x), dtype(batch_x))
+        print(batch_x.type())
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
         epoch_loss += loss.item()
