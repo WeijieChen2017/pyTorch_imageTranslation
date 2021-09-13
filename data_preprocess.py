@@ -19,7 +19,7 @@ def create_index_3d(data, block_size, stride):
         list_dim = []
         max_start = (len_dim - block_size) // stride
         for idx in range(max_start + 1):
-            list_dim.append((idx * stride, idx * stride + block_size - 1))
+            list_dim.append((idx * stride, idx * stride + block_size))
         list_start.append(list_dim)
     
     return list_start, data_pad
