@@ -57,16 +57,28 @@ dataloader_val = DataLoader(dataset=dataset_val,
 model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
             num_level = opt.depth).to(device)
-for param in model.parameters():
-    print(type(param), param.size())
 criterion = nn.HuberLoss
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
+# start the training
 
+for epoch in range(opt.epochs):
 
+    epoch_loss = 0
+    for iteration, batch in enumerate(dataloader_train, 1):
+        batch_x, batch_y = batch[0].to(device), batch[1].to(device)
+        optimizer.zero_grad()
+        loss = criterion(model(batch_x), batch_y)
+        epoch_loss += loss.item()
+        loss.backward()
+        optimizer.step()
 
-# (N,C,D,H,W)
-input = torch.randn(4, 1, 64, 64, 64)
-model.summary(input)
+        print("===> Epoch[{}]({}/{}): Loss: {:.4f}".format(epoch, iteration, len(dataloader_train), loss.item()))
+
+    print("===> Epoch {} Complete: Avg. Loss: {:.4f}".format(epoch, epoch_loss / len(dataloader_train)))
+
+# # (N,C,D,H,W)
+# input = torch.randn(4, 1, 64, 64, 64)
+# model.summary(input)
 
 
