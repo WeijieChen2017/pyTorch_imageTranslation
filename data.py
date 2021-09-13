@@ -17,7 +17,7 @@ class DatasetFromFolder(Dataset):
             random.shuffle(temp)
             self.filenames_X, self.filenames_Y = zip(*temp)
 
-    def __getitem__(self, index):
+    def __getitem__(self, idx):
 
         batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
