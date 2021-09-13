@@ -5,7 +5,7 @@ import numpy as np
 from glob import glob
 
 class DatasetFromFolder(Dataset):
-    def __init__(self, data_dir_X, data_dir_Y, batch_size, shuffle=False):
+    def __init__(self, data_dir_X, data_dir_Y, batch_size=1, shuffle=False):
         super(DatasetFromFolder, self).__init__()
         self.filenames_X = sorted(glob(os.path.join(data_dir_X,'*.npy'),recursive=True))
         self.filenames_Y = sorted(glob(os.path.join(data_dir_Y,'*.npy'),recursive=True))
@@ -19,11 +19,11 @@ class DatasetFromFolder(Dataset):
 
     def __getitem__(self, idx):
 
-        # batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
-        # batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
+        batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
+        batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
-        batch_x_fns = self.filenames_X[idx]
-        batch_y_fns = self.filenames_Y[idx]
+        # batch_x_fns = self.filenames_X[idx]
+        # batch_y_fns = self.filenames_Y[idx]
         # print(np.load(batch_x_fns[0]).shape)
 
         batch_x = np.array( [ np.load(fn) for fn in batch_x_fns ] )

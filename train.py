@@ -38,10 +38,10 @@ valFolderY = "./data_train/Y/val/"
 
 dataset_train = DatasetFromFolder(data_dir_X = trainFolderX,
                                   data_dir_Y = trainFolderY,
-                                  batch_size = opt.batch_size)
+                                  batch_size = 1)
 dataset_val = DatasetFromFolder(data_dir_X = valFolderX,
                                 data_dir_Y = valFolderY,
-                                batch_size = opt.batch_size)
+                                batch_size = 1)
 
 dataloader_train = DataLoader(dataset=dataset_train,
                               num_workers=opt.data_worker,
