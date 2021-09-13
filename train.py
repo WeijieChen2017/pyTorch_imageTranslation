@@ -69,6 +69,8 @@ for epoch in range(opt.epochs):
     epoch_loss = 0
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
+        batch_x = torch.from_numpy(batch_x).double()
+        batch_y = torch.from_numpy(batch_y).double()
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
         epoch_loss += loss.item()
