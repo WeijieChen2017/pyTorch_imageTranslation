@@ -70,7 +70,7 @@ for epoch in range(opt.epochs):
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         optimizer.zero_grad()
-        loss = criterion(model(batch_x.double()), batch_y.double())
+        loss = criterion(model(batch_x), batch_y)
         epoch_loss += loss.item()
         loss.backward()
         optimizer.step()
