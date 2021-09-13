@@ -67,4 +67,6 @@ optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 # (N,C,D,H,W)
 input = torch.randn(4, 1, 64, 64, 64)
-net.summary(input)
+model.summary(input)
+
+

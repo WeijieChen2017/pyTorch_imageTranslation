@@ -21,7 +21,6 @@ class Net(nn.Module):
         self.network_layer = nn.ModuleList()
         for item in self.net_list:
             name, layer = item
-            print(type(layer))
             self.network_name.append(name)
             self.network_layer.append(layer)
 
