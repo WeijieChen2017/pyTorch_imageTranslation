@@ -75,7 +75,7 @@ for epoch in range(opt.epochs):
         # print(batch_x.type())
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
-        epoch_loss += loss.item()
+        epoch_loss += loss
         loss.backward()
         optimizer.step()
 
