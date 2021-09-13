@@ -22,8 +22,12 @@ class DatasetFromFolder(Dataset):
         batch_x_fns = self.filenames_X[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_y_fns = self.filenames_Y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
+        print(np.load(batch_x_fns[0]).shape)
+
         batch_x = np.array( [ np.load(fn) for fn in batch_x_fns ] )
         batch_y = np.array( [ np.load(fn) for fn in batch_y_fns ] )
+
+        print(batch_x.shape)
 
         return batch_x, batch_y
 
