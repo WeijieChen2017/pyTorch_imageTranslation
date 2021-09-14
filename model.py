@@ -51,7 +51,7 @@ class Net(nn.Module):
 
 def color_layer(item):
     name = item[0]
-    layer = item[1]
+    layer = item[1].double()
     if name == "Conv3d":
         print("\33[34m", layer)
     elif "Norm" in name:
