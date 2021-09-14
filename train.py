@@ -58,10 +58,12 @@ print("===> Datasets and Dataloders are set")
 model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
             num_level = opt.depth,
-            verbose = True).to(device)
+            verbose = False).to(device)
 model.double()
 criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
+input = torch.randn(4, 1, 32, 32, 32).double()
+model.summary(input)
 print("===> The network, loss, optimizer are set")
 
 # start the training
@@ -89,7 +91,7 @@ for epoch in range(opt.epochs):
     print("Checkpoint saved to {}".format(model_save_path))
 
 # # (N,C,D,H,W)
-# input = torch.randn(4, 1, 64, 64, 64).double()
+# input = torch.randn(4, 1, 32, 32, 32).double()
 # model.summary(input)
 
 
