@@ -44,12 +44,12 @@ dataloader_train = DataLoader(dataset=dataset_test,
 print("===> Datasets and Dataloders are set")
 
 # build the network
-model = Net(block_size = opt.block_size,
-            num_filters = opt.num_filters,
-            num_level = opt.depth).to(device)
-model.double()
-criterion = nn.HuberLoss()
-optimizer = optim.Adam(model.parameters(), lr=opt.lr)
+# model = Net(block_size = opt.block_size,
+#             num_filters = opt.num_filters,
+#             num_level = opt.depth).to(device)
+# model.double()
+# criterion = nn.HuberLoss()
+# optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 model.load_state_dict(torch.load("model_epoch_9.pth"))
 model.eval()
 print("===> The network, loss, optimizer are set")
