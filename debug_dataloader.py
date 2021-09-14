@@ -75,8 +75,8 @@ for epoch in range(opt.epochs):
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         sample_name = os.path.basename(batch[2][0])
-        np.save("./"+sample_name+"_x_"+str(cnt)+".npy", batch_x)
-        np.save("./"+sample_name+"_y_"+str(cnt)+".npy", batch_y)
+        np.save("./"+sample_name, batch_x)
+        np.save("./"+sample_name.replace("X", "Y"), batch_y)
         cnt += 1
         if cnt == 10:
             exit()    
