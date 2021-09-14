@@ -67,7 +67,7 @@ for iteration, batch in enumerate(dataloader_test, 1):
     sample_name = os.path.basename(filename[0])
     sample_path = os.path.join(testSaveFolder, sample_name.replace("X", "pred"))
     pred = model(batch_x)
-    np.save(sample_path, np.squeeze(pred.numpy()))
+    np.save(sample_path, np.squeeze(pred.detach().numpy()))
     loss = criterion(pred, batch_y)
     epoch_loss += loss.item()
     print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_test), loss.item()))
