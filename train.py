@@ -88,7 +88,7 @@ print("===> The network, loss, optimizer are set")
 #     print("Checkpoint saved to {}".format(model_save_path))
 
 # # (N,C,D,H,W)
-input = torch.randn(4, 1, 64, 64, 64)
+input = torch.randn(4, 1, 64, 64, 64).double()
 model.summary(input)
 
 
