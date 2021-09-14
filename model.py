@@ -16,20 +16,8 @@ class Net(nn.Module):
                                self.num_level)
         if verbose:
             network_visualization(self.net_list)
-        
-        self.network_name = []
-        # self.network_layer = nn.ModuleList()
-        # for item in self.net_list:
-            # name, layer = item
-            # self.network_name.append(name)
-            # self.network_layer.append(layer)
 
-        self.network_layer = nn.Sequential()
-        for item in self.net_list:
-            name, layer = item
-            print(item)
-            # self.network_name.append(name)
-            self.network_layer.add_module(layer)
+        self.network_layer = nn.Sequential(self.net_list)
 
     # def forward(self, x):
     #     for layer in self.network_layer:
@@ -178,7 +166,6 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
     unet3d.append(Linear(in_features = block_size, out_features = block_size))
 
     # flatten the list of layer
-    print(unet3d)
     unet3d_flatten = []
     for item in unet3d:
         if isinstance(item, list):
