@@ -64,6 +64,8 @@ print("===> The model {} are loaded.".format(opt.model_save_path))
 epoch_loss = 0
 for iteration, batch in enumerate(dataloader_test, 1):
     batch_x, batch_y, filename = batch[0].to(device), batch[1].to(device), batch[2]
+    print(filename)
+    print(os.path.join(testSaveFolder, filename))
     pred = model(batch_x)
     np.save(os.path.join(testSaveFolder, filename), pred)
     loss = criterion(pred, batch_y)
