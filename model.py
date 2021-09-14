@@ -42,7 +42,8 @@ class Net(nn.Module):
         print("\33[0m", "-"*25, "Start", "-"*25)
         for item in enumerate(self.network_layer):
             print(item)
-            name, layer = item
+            layer = item[1]
+            print(layer.type())
             print(x.size())
             color_layer(item)
             x = layer(x)
