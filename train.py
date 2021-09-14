@@ -11,17 +11,16 @@ from data import DatasetFromFolder
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=8, help='training batch size')
-parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
+parser.add_argument('--batch_size', type=int, default=48, help='training batch size')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=8, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cpu', action='store_true', help='use cuda?')
-parser.add_argument('--block_size', type=int, default=64, help='the block size of each input')
+parser.add_argument('--block_size', type=int, default=32, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
-parser.add_argument('--depth', type=int, default=3, help='the depth of unet')
-parser.add_argument('--num_filters', type=int, default=32, help='the number of starting filters')
+parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
+parser.add_argument('--num_filters', type=int, default=48, help='the number of starting filters')
 opt = parser.parse_args()
 print(opt)
 
@@ -31,12 +30,12 @@ device = torch.device("cuda" if not opt.cpu else "cpu")
 print("Device: ", device)
 
 # set the dataset
-trainFolderX = "./data_train/X64/train/"
-trainFolderY = "./data_train/Y64/train/"
-testFolderX = "./data_train/X64/test/"
-testFolderY = "./data_train/Y64/test/"
-valFolderX = "./data_train/X64/val/"
-valFolderY = "./data_train/Y64/val/"
+trainFolderX = "./data_train/X"+str(opt.block_size)+"/train/"
+trainFolderY = "./data_train/Y"+str(opt.block_size)+"/train/"
+testFolderX = "./data_train/X"+str(opt.block_size)+"/test/"
+testFolderY = "./data_train/Y"+str(opt.block_size)+"/test/"
+valFolderX = "./data_train/X"+str(opt.block_size)+"/val/"
+valFolderY = "./data_train/Y"+str(opt.block_size)+"/val/"
 
 dataset_train = DatasetFromFolder(data_dir_X = trainFolderX,
                                   data_dir_Y = trainFolderY,
