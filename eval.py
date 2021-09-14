@@ -10,8 +10,6 @@ from data import DatasetFromFolder
 
 # training setting
 
-model_save_path
-
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
 parser.add_argument('--batch_size', type=int, default=2, help='training batch size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
