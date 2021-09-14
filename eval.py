@@ -37,9 +37,10 @@ device = torch.device("cuda" if opt.cuda else "cpu")
 # set the dataset
 testFolderX = "./data_train/X/test/"
 testFolderY = "./data_train/Y/test/"
-testSaveFolder = "./data_pred/"
+testSaveFolder = "./data_pred/cube"
+niftySaveFolder = "./data_pred/nifty"
 
-for folder_name in [testSaveFolder]:
+for folder_name in [testSaveFolder, niftySaveFolder]:
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
