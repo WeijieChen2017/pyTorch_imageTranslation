@@ -50,7 +50,7 @@ print("===> Datasets and Dataloders are set")
 # model.double()
 # criterion = nn.HuberLoss()
 # optimizer = optim.Adam(model.parameters(), lr=opt.lr)
-model.load_state_dict(torch.load("model_epoch_9.pth"))
+model = torch.load("model_epoch_9.pth")
 model.eval()
 print("===> The network, loss, optimizer are set")
 
