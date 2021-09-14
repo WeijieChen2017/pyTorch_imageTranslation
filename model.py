@@ -52,9 +52,9 @@ class Net(nn.Module):
 def color_layer(layer):
     if isinstance(layer, Conv3d):
         print("\33[34m", layer)
-    elif isinstance(layer, (ELU, LeakyReLU, ReLU))
+    elif isinstance(layer, (ELU, LeakyReLU, ReLU)):
         print("\33[33m", layer)
-    elif isinstance(layer, (BatchNorm3d, GroupNorm, InstanceNorm3d))
+    elif isinstance(layer, (BatchNorm3d, GroupNorm, InstanceNorm3d)):
         print("\33[32m", layer)
     elif isinstance(layer, (MaxPool3d, ConvTranspose3d)):
         print("\33[31m", layer)
