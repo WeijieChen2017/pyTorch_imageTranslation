@@ -32,11 +32,10 @@ class Net(nn.Module):
     def summary(self, x):
         print("\33[0m", "-"*25, "Start", "-"*25)
         for item in enumerate(self.network_layer):
-            # print(item)
             layer = item[1]
             color_layer(layer)
-            # x = layer(x)
-        # print(x.size())
+            x = layer(x)
+            print(x.size())
         print("\33[0m", "-"*25, "Over!", "-"*25)
 
 
