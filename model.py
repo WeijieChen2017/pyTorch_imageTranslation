@@ -21,11 +21,6 @@ class Net(nn.Module):
         for idx, item in enumerate(self.net_list):
             self.network_layer.add_module(str(idx), item)
 
-    # def forward(self, x):
-    #     for layer in self.network_layer:
-    #         x = layer(x)
-    #     return x
-
     def forward(self, x):
         return self.network_layer(x)
 
@@ -50,13 +45,6 @@ def color_layer(layer):
         print("\33[31m", layer)
     else:
         print("\33[35m", layer)
-
-# def network_visualization(network_list):
-#     print("\33[0m", "-"*25, "Start", "-"*25)
-#     for item in network_list:
-#         color_layer(item)
-#     print("\33[0m", "-"*25, "Over!", "-"*25)
-
 
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 

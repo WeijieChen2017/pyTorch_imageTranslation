@@ -34,7 +34,7 @@ class DatasetFromFolder(Dataset):
 
         # print(batch_x.shape)
         if self.filename:
-            return batch_x, batch_y, batch_x_fns[0]
+            return batch_x, batch_y, batch_x_fns
         else:
             return batch_x, batch_y
 
