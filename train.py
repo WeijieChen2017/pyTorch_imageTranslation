@@ -57,7 +57,8 @@ print("===> Datasets and Dataloders are set")
 # build the network
 model = Net(block_size = opt.block_size,
             num_filters = opt.num_filters,
-            num_level = opt.depth).to(device)
+            num_level = opt.depth,
+            verbose = true).to(device)
 model.double()
 criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
