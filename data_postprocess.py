@@ -25,7 +25,7 @@ def create_index_3d(data, block_size, stride):
     return list_start, data_pad
 
 def remove_pad(data_pad, data_ori, block_size, stride):
-    data_size = data.shape
+    data_size = data_ori.shape
     pad_width = []
     for len_dim in data_size:
         before_pad_width = (len_dim - len_dim // block_size * block_size) // 2
@@ -75,10 +75,10 @@ for folderName in [testFolderX, testFolderY]:
     if not os.path.exists(folderName):
         os.makedirs(folderName)
 
-fileList = glob.glob(folderX+"/*.nii") + glob.glob(folderX+"/*.nii.gz")
-fileList.sort()
-for filePath in fileList:
-    print(filePath)
+# fileList = glob.glob(folderX+"/*.nii") + glob.glob(folderX+"/*.nii.gz")
+# fileList.sort()
+# for filePath in fileList:
+#     print(filePath)
 
 # shuffle and create train/val/test file list
 np.random.seed(813)
