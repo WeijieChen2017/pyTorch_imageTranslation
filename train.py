@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 
 import torch
 import torch.nn as nn
@@ -10,7 +11,7 @@ from data import DatasetFromFolder
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=64, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=32, help='training batch size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
@@ -20,7 +21,7 @@ parser.add_argument('--cpu', action='store_true', help='use cuda?')
 parser.add_argument('--block_size', type=int, default=32, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
-parser.add_argument('--num_filters', type=int, default=32, help='the number of starting filters')
+parser.add_argument('--num_filters', type=int, default=48, help='the number of starting filters')
 opt = parser.parse_args()
 print(opt)
 
@@ -72,6 +73,7 @@ print("===> The network, loss, optimizer are set")
 for epoch in range(opt.epochs):
 
     epoch_loss = 0
+    epoch_loss_list = []
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         # batch_x = torch.from_numpy(batch_x).double()
@@ -84,7 +86,9 @@ for epoch in range(opt.epochs):
         optimizer.step()
 
         print("===> Epoch[{}]({}/{}): Loss: {:.6f}".format(epoch, iteration, len(dataloader_train), loss.item()))
+        epoch_loss_list.append(loss.item())
 
+    np.save("epoch_Loss_{}.npy".format(epoch), np.asarray(epoch_loss_list))
     print("===> Epoch {} Complete: Avg. Loss: {:.6f}".format(epoch, epoch_loss / len(dataloader_train)))
 
     model_save_path = "model_epoch_{}.pth".format(epoch)
