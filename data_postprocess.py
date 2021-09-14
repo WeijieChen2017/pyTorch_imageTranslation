@@ -125,6 +125,7 @@ for package in [packageTest]:
                     savename += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
                     print(savename)
                     cube_pred = np.load(savename)
+                    print(cube_pred.shape)
                     data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
 
         data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
