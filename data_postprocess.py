@@ -92,7 +92,7 @@ print('-'*50)
 
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 
-for package in [packageTest, packageVal, packageTrain]:
+for package in [packageTest]:
     fileList = package[0]
     folderX = package[1]
     folderY = package[2]
