@@ -74,7 +74,10 @@ for epoch in range(opt.epochs):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
 
         np.save("./batch_x_"+str(cnt)+".npy", batch_x)
-        np.save("./batch_y_"+str(cnt)+".npy", batch_y)        
+        np.save("./batch_y_"+str(cnt)+".npy", batch_y)
+        cnt += 1
+        if cnt == 10:
+            exit()    
 
         # batch_x = torch.from_numpy(batch_x).double()
         # batch_y = torch.from_numpy(batch_y).double()
