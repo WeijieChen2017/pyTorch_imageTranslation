@@ -56,7 +56,7 @@ def denormX(data):
     return data * 6000
 
 def denormY(data):
-    return data = data * 4000 - 1000
+    return data * 4000 - 1000
 
 folderX = "./data_train/NPR_SRC/"
 folderY = "./data_train/CT_SRC/"
@@ -138,4 +138,3 @@ for package in [packageTest, packageVal, packageTrain]:
 
         print("&"*10)
         print(pred_name)
-        
