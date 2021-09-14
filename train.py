@@ -10,13 +10,13 @@ from data import DatasetFromFolder
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=4, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=8, help='training batch size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=8, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
-parser.add_argument('--cuda', action='store_true', help='use cuda?')
+parser.add_argument('--cpu', action='store_true', help='use cuda?')
 parser.add_argument('--block_size', type=int, default=32, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
@@ -26,7 +26,7 @@ print(opt)
 
 # basic setting
 torch.manual_seed(opt.seed)
-device = torch.device("cuda" if opt.cuda else "cpu")
+device = torch.device("cuda" if not opt.cuda else "cpu")
 print("Device: ", device)
 
 # set the dataset
