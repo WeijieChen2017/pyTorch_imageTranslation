@@ -36,7 +36,7 @@ def remove_pad(data_pad, data_ori, block_size, stride):
     before_y, after_y = pad_width[1]
     before_z, after_z = pad_width[2]
 
-    data_cut = data_pad[before_x:after_x, before_y:after_y, before_z:after_z]
+    data_cut = data_pad[before_x:-after_x, before_y:-after_y, before_z:-after_z]
     print("Data_cut shape: ", data_cut.shape)
     return denormY(data_cut)
 
@@ -125,7 +125,6 @@ for package in [packageTest]:
                     savename += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
                     print(savename)
                     cube_pred = np.load(savename)
-                    print(cube_pred.shape)
                     data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
 
         data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
