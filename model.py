@@ -18,8 +18,8 @@ class Net(nn.Module):
             network_visualization(self.net_list)
 
         self.network_layer = nn.Sequential()
-        for item in self.net_list:
-            print(item)
+        for item, idx in enumerate(self.net_list):
+            self.network_layer.add_module(str(idx), item)
 
     # def forward(self, x):
     #     for layer in self.network_layer:
