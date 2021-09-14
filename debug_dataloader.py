@@ -47,7 +47,8 @@ dataset_val = DatasetFromFolder(data_dir_X = valFolderX,
 dataloader_train = DataLoader(dataset=dataset_train,
                               num_workers=opt.data_worker,
                               batch_size=opt.batch_size,
-                              shuffle=True)
+                              shuffle=True,
+                              filename=True)
 
 dataloader_val = DataLoader(dataset=dataset_val,
                             num_workers=opt.data_worker,
@@ -72,9 +73,9 @@ for epoch in range(opt.epochs):
     cnt =0
     for iteration, batch in enumerate(dataloader_train, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
-
-        np.save("./batch_x_"+str(cnt)+".npy", batch_x)
-        np.save("./batch_y_"+str(cnt)+".npy", batch_y)
+        sample_name = os.path.basename(batch[2])
+        np.save("./"+sample_name+"_x_"+str(cnt)+".npy", batch_x)
+        np.save("./"+sample_name+"_y_"+str(cnt)+".npy", batch_y)
         cnt += 1
         if cnt == 10:
             exit()    
