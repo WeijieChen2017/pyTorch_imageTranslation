@@ -133,8 +133,8 @@ for package in [packageTest]:
         data_dif = dataY - data_cut
         pred_file = nib.Nifti1Image(data_cut, fileX.affine, fileY.header)
         diff_file = nib.Nifti1Image(data_dif, fileX.affine, fileX.header)
-        pred_name = folder_pred_nifty+"pred_"+filenameX
-        diff_name = folder_pred_nifty+"diff_"+filenameX
+        pred_name = folder_pred_nifty+"pred_"+filenameX+".nii.gz"
+        diff_name = folder_pred_nifty+"diff_"+filenameX+".nii.gz"
         nib.save(pred_file, pred_name)
         nib.save(diff_file, diff_name)
 
