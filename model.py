@@ -43,24 +43,20 @@ class Net(nn.Module):
         for item in enumerate(self.network_layer):
             print(item)
             layer = item[1]
-            print(layer.type())
-            print(x.size())
-            color_layer(item)
+            color_layer(layer)
             x = layer(x)
         print(x.size())
         print("\33[0m", "-"*25, "Over!", "-"*25)
 
 
-def color_layer(item):
-    name = item[0]
-    layer = item[1].double()
-    if name == "Conv3d":
+def color_layer(layer):
+    if isinstance(layer, Conv3d):
         print("\33[34m", layer)
-    elif "Norm" in name:
+    elif isinstance(layer, (ELU, LeakyReLU, ReLU))
         print("\33[33m", layer)
-    elif "LU" in name:
+    elif isinstance(layer, (BatchNorm3d, GroupNorm, InstanceNorm3d))
         print("\33[32m", layer)
-    elif "Pool" in name or "Trans" in name:
+    elif isinstance(layer, (MaxPool3d, ConvTranspose3d)):
         print("\33[31m", layer)
     else:
         print("\33[35m", layer)
