@@ -131,12 +131,12 @@ for package in [packageTest]:
 
         data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
         data_dif = dataY - data_cut
-        pred_file = nibabel.Nifti1Image(data_cut, fileX.affine, fileY.header)
-        diff_file = nibabel.Nifti1Image(data_dif, fileX.affine, fileX.header)
+        pred_file = nib.Nifti1Image(data_cut, fileX.affine, fileY.header)
+        diff_file = nib.Nifti1Image(data_dif, fileX.affine, fileX.header)
         pred_name = folder_pred_nifty+"pred_"+filenameX
         diff_name = folder_pred_nifty+"diff_"+filenameX
-        nibabel.save(pred_file, pred_name)
-        nibabel.save(diff_file, diff_name)
+        nib.save(pred_file, pred_name)
+        nib.save(diff_file, diff_name)
 
         print("&"*10)
         print(pred_name)
