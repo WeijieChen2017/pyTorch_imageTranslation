@@ -10,7 +10,7 @@ from data import DatasetFromFolder
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=2, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=4, help='training batch size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.01, help='Learning Rate. Default=0.01')
@@ -79,9 +79,9 @@ for epoch in range(opt.epochs):
         loss.backward()
         optimizer.step()
 
-        print("===> Epoch[{}]({}/{}): Loss: {:.4f}".format(epoch, iteration, len(dataloader_train), loss.item()))
+        print("===> Epoch[{}]({}/{}): Loss: {:.6f}".format(epoch, iteration, len(dataloader_train), loss.item()))
 
-    print("===> Epoch {} Complete: Avg. Loss: {:.4f}".format(epoch, epoch_loss / len(dataloader_train)))
+    print("===> Epoch {} Complete: Avg. Loss: {:.6f}".format(epoch, epoch_loss / len(dataloader_train)))
 
     model_save_path = "model_epoch_{}.pth".format(epoch)
     torch.save(model, model_save_path)
