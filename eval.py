@@ -13,7 +13,7 @@ from data import DatasetFromFolder
 # training setting
 
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=2, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=1, help='training batch size')
 parser.add_argument('--test_batch_size', type=int, default=4, help='testing batch size')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.01, help='Learning Rate. Default=0.01')
@@ -66,7 +66,7 @@ for iteration, batch in enumerate(dataloader_test, 1):
     batch_x, batch_y, filename = batch[0].to(device), batch[1].to(device), batch[2]
 
     print(batch_x.size())
-    sample_name = os.path.basename(filename)
+    sample_name = os.path.basename(filename[0])
     print(sample_name)
     
     pred = model(batch_x)
