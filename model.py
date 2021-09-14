@@ -17,7 +17,9 @@ class Net(nn.Module):
         if verbose:
             network_visualization(self.net_list)
 
-        self.network_layer = nn.Sequential(self.net_list)
+        self.network_layer = nn.Sequential()
+        for item in self.net_list:
+            print(item)
 
     # def forward(self, x):
     #     for layer in self.network_layer:
