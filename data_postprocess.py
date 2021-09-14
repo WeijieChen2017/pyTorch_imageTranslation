@@ -86,7 +86,7 @@ for folderName in [testFolderX, testFolderY]:
 np.random.seed(813)
 testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 folder_pred_cube = "./data_pred/cube/"
-folder_pred_nifty = "./data_pred/nifty"
+folder_pred_nifty = "./data_pred/nifty/"
 
 print('-'*50)
 print("Testing list: ", testList)
@@ -125,7 +125,7 @@ for package in [packageTest]:
                 for start_z, end_z in listCordZ:
                     savename = folder_pred_cube + "pred_" + filenameX 
                     savename += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
-                    print(savename)
+                    # print(savename)
                     cube_pred = np.load(savename)
                     data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
 
