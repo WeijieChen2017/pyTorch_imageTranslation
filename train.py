@@ -65,30 +65,30 @@ print("===> The network, loss, optimizer are set")
 
 # start the training
 
-for epoch in range(opt.epochs):
+# for epoch in range(opt.epochs):
 
-    epoch_loss = 0
-    for iteration, batch in enumerate(dataloader_train, 1):
-        batch_x, batch_y = batch[0].to(device), batch[1].to(device)
-        # batch_x = torch.from_numpy(batch_x).double()
-        # batch_y = torch.from_numpy(batch_y).double()
-        # print(batch_x.type())
-        optimizer.zero_grad()
-        loss = criterion(model(batch_x), batch_y)
-        epoch_loss += loss.item()
-        loss.backward()
-        optimizer.step()
+#     epoch_loss = 0
+#     for iteration, batch in enumerate(dataloader_train, 1):
+#         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
+#         # batch_x = torch.from_numpy(batch_x).double()
+#         # batch_y = torch.from_numpy(batch_y).double()
+#         # print(batch_x.type())
+#         optimizer.zero_grad()
+#         loss = criterion(model(batch_x), batch_y)
+#         epoch_loss += loss.item()
+#         loss.backward()
+#         optimizer.step()
 
-        print("===> Epoch[{}]({}/{}): Loss: {:.4f}".format(epoch, iteration, len(dataloader_train), loss.item()))
+#         print("===> Epoch[{}]({}/{}): Loss: {:.4f}".format(epoch, iteration, len(dataloader_train), loss.item()))
 
-    print("===> Epoch {} Complete: Avg. Loss: {:.4f}".format(epoch, epoch_loss / len(dataloader_train)))
+#     print("===> Epoch {} Complete: Avg. Loss: {:.4f}".format(epoch, epoch_loss / len(dataloader_train)))
 
-    model_save_path = "model_epoch_{}.pth".format(epoch)
-    torch.save(model, model_save_path)
-    print("Checkpoint saved to {}".format(model_save_path))
+#     model_save_path = "model_epoch_{}.pth".format(epoch)
+#     torch.save(model, model_save_path)
+#     print("Checkpoint saved to {}".format(model_save_path))
 
 # # (N,C,D,H,W)
-# input = torch.randn(4, 1, 64, 64, 64)
-# model.summary(input)
+input = torch.randn(4, 1, 64, 64, 64)
+model.summary(input)
 
 
