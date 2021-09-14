@@ -59,7 +59,7 @@ for iteration, batch in enumerate(dataloader_test, 1):
     pred = model(batch_x)
     loss = criterion(pred, batch_y)
     epoch_loss += loss.item()
-    print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_train), loss.item()))
+    print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_test), loss.item()))
     
-print("The loss is ", epoch_loss / len(dataloader_train))
+print("The loss is ", epoch_loss / len(dataloader_test))
 
