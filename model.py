@@ -29,7 +29,7 @@ class Net(nn.Module):
             name, layer = item
             print(item)
             # self.network_name.append(name)
-            self.network_layer.add_module(name, layer)
+            self.network_layer.add_module(layer)
 
     # def forward(self, x):
     #     for layer in self.network_layer:
