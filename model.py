@@ -27,6 +27,7 @@ class Net(nn.Module):
         self.network_layer = nn.Sequential()
         for item in self.net_list:
             name, layer = item
+            print(item)
             # self.network_name.append(name)
             self.network_layer.add_module(name, layer)
 
