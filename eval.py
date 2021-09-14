@@ -1,4 +1,6 @@
+import numpy as np
 import argparse
+import os
 
 import torch
 import torch.nn as nn
@@ -35,10 +37,16 @@ device = torch.device("cuda" if opt.cuda else "cpu")
 # set the dataset
 testFolderX = "./data_train/X/test/"
 testFolderY = "./data_train/Y/test/"
+testSaveFolder = "./data_pred/"
+
+for folder_name in [testSaveFolder]:
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
 
 dataset_test = DatasetFromFolder(data_dir_X = testFolderX,
                                  data_dir_Y = testFolderY,
-                                 batch_size = 1)
+                                 batch_size = 1,
+                                 filename = True)
 
 dataloader_test = DataLoader(dataset=dataset_test,
                              num_workers=opt.data_worker,
@@ -55,8 +63,9 @@ print("===> The model {} are loaded.".format(opt.model_save_path))
 
 epoch_loss = 0
 for iteration, batch in enumerate(dataloader_test, 1):
-    batch_x, batch_y = batch[0].to(device), batch[1].to(device)
+    batch_x, batch_y, filename = batch[0].to(device), batch[1].to(device)
     pred = model(batch_x)
+    np.save(os.path.join(testSaveFolder, filename), pred)
     loss = criterion(pred, batch_y)
     epoch_loss += loss.item()
     print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_test), loss.item()))

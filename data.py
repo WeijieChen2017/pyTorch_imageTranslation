@@ -5,12 +5,13 @@ import numpy as np
 from glob import glob
 
 class DatasetFromFolder(Dataset):
-    def __init__(self, data_dir_X, data_dir_Y, batch_size=1, shuffle=False):
+    def __init__(self, data_dir_X, data_dir_Y, batch_size=1, shuffle=False, filename=False):
         super(DatasetFromFolder, self).__init__()
         self.filenames_X = sorted(glob(os.path.join(data_dir_X,'*.npy'),recursive=True))
         self.filenames_Y = sorted(glob(os.path.join(data_dir_Y,'*.npy'),recursive=True))
         self.batch_size = batch_size
         self.shuffle = shuffle
+        self.filename = filename
 
         if shuffle:
             temp = list(zip(self.filenames_X, self.filenames_Y))
@@ -32,8 +33,10 @@ class DatasetFromFolder(Dataset):
         # batch_y = np.expand_dims(batch_y, 0)
 
         # print(batch_x.shape)
-
-        return batch_x, batch_y
+        if self.filename:
+            return batch_x, batch_y, batch_x_fns[0]
+        else:
+            return batch_x, batch_y
 
     def __len__(self):
         return len(self.filenames_X) // self.batch_size
