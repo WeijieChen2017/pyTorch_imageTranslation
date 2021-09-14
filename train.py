@@ -63,7 +63,7 @@ model = Net(block_size = opt.block_size,
 model.double()
 criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
-input = torch.randn(4, 1, 32, 32, 32).double()
+input = torch.randn(4, 1, 32, 32, 32).double().to(device)
 model.summary(input)
 print("===> The network, loss, optimizer are set")
 
