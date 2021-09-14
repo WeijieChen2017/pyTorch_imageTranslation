@@ -44,8 +44,8 @@ class Net(nn.Module):
             print(item)
             layer = item[1]
             color_layer(layer)
-            x = layer(x)
-        print(x.size())
+            # x = layer(x)
+        # print(x.size())
         print("\33[0m", "-"*25, "Over!", "-"*25)
 
 
