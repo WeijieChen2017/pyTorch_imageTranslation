@@ -178,9 +178,10 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
     unet3d.append(Linear(in_features = block_size, out_features = block_size))
 
     # flatten the list of layer
+    print(unet3d)
     unet3d_flatten = []
     for item in unet3d:
-        if isinstance(item[0], list):
+        if isinstance(item, list):
             for elem in item:
                 unet3d_flatten.append(elem)
         else:
