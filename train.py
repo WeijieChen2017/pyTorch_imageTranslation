@@ -27,6 +27,7 @@ print(opt)
 # basic setting
 torch.manual_seed(opt.seed)
 device = torch.device("cuda" if opt.cuda else "cpu")
+print("Device: ", device)
 
 # set the dataset
 trainFolderX = "./data_train/X/train/"
