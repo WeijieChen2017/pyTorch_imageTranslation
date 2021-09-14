@@ -62,11 +62,11 @@ def color_layer(layer):
     else:
         print("\33[35m", layer)
 
-def network_visualization(network_list):
-    print("\33[0m", "-"*25, "Start", "-"*25)
-    for item in network_list:
-        color_layer(item)
-    print("\33[0m", "-"*25, "Over!", "-"*25)
+# def network_visualization(network_list):
+#     print("\33[0m", "-"*25, "Start", "-"*25)
+#     for item in network_list:
+#         color_layer(item)
+#     print("\33[0m", "-"*25, "Over!", "-"*25)
 
 
 def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
@@ -75,30 +75,29 @@ def convBlock(in_channels, out_channels, num_groups, norm_type, acti_type):
 
     # add conv layer
     # input size (N,C,D,H,W)
-    convBlock.append(["Conv3d", Conv3d(in_channels=in_channels,
-                                       out_channels=out_channels,
-                                       kernel_size=3,
-                                       groups=num_groups,
-                                       padding=1)])
+    convBlock.append(Conv3d(in_channels=in_channels,
+                            out_channels=out_channels,
+                            kernel_size=3,
+                            groups=num_groups,
+                            padding=1))
     # add norm layer
     if norm_type == "batch":
         # num_features
-        convBlock.append(["BatchNorm3d", BatchNorm3d(num_features=out_channels)])
+        convBlock.append(BatchNorm3d(num_features=out_channels))
     elif norm_type == "group":
-        convBlock.append(["GroupNorm", GroupNorm(num_groups=num_groups,
-                                                   num_features=out_channels)])
+        convBlock.append(GroupNorm(num_groups=num_groups, num_features=out_channels))
     elif norm_type == "instance":
-        convBlock.append(["InstanceNorm3d", InstanceNorm3d(num_features=out_channels)])
+        convBlock.append(InstanceNorm3d(num_features=out_channels))
     elif norm_type == "none":
         pass
 
     # add activation layer
     if acti_type == "ReLU":
-        convBlock.append(["ReLU", ReLU()])
+        convBlock.append(ReLU())
     elif acti_type == "ELU":
-        convBlock.append(["ELU", ELU()])
+        convBlock.append(ELU())
     elif acti_type == "LeakyReLU":
-        convBlock.append(["LeakyReLU", LeakyReLU()])
+        convBlock.append(LeakyReLU())
 
     return convBlock
 
@@ -128,7 +127,7 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
         unet3d.append(block)
-        unet3d.append(["MaxPool3d", MaxPool3d(kernel_size=3, stride=2, padding=1)])
+        unet3d.append(MaxPool3d(kernel_size=3, stride=2, padding=1))
         num_filters = num_filters * 2
 
     # lowest learning
@@ -139,7 +138,7 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
                       acti_type = "LeakyReLU")
     unet3d.append(block)
     unet3d.append(block)
-    unet3d.append(["Dropout3d", Dropout3d()])
+    unet3d.append(Dropout3d())
     unet3d.append(block)
     unet3d.append(block)
 
@@ -150,13 +149,13 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
                           num_groups = num_groups,
                           norm_type = "batch",
                           acti_type = "LeakyReLU")
-        unet3d.append(["ConvTrans3d", ConvTranspose3d(in_channels=num_filters,
-                                                      out_channels=num_filters,
-                                                      kernel_size=3,
-                                                      groups=num_groups,
-                                                      stride=2,
-                                                      padding=1,
-                                                      output_padding=1)])
+        unet3d.append(ConvTranspose3d(in_channels=num_filters,
+                                      out_channels=num_filters,
+                                      kernel_size=3,
+                                      groups=num_groups,
+                                      stride=2,
+                                      padding=1,
+                                      output_padding=1))
         unet3d.append(block)
         unet3d.append(block)
         block = convBlock(in_channels = num_filters,
@@ -166,18 +165,17 @@ def unet3d(block_size=64, num_filters=16, num_level=2, num_groups=1):
                           acti_type = "LeakyReLU")
         unet3d.append(block)
         num_filters = num_filters // 2
-    unet3d.append(["Conv3d", Conv3d(in_channels=num_filters,
-                                    out_channels=num_filters,
-                                    kernel_size=3,
-                                    groups=num_groups,
-                                    padding=1)])
-    unet3d.append(["Conv3d", Conv3d(in_channels=num_filters,
-                                    out_channels=1,
-                                    kernel_size=3,
-                                    groups=num_groups,
-                                    padding=1)])
-    unet3d.append(["Linear", Linear(in_features = block_size,
-                                    out_features = block_size)])
+    unet3d.append(Conv3d(in_channels=num_filters,
+                         out_channels=num_filters,
+                         kernel_size=3,
+                         groups=num_groups,
+                         padding=1))
+    unet3d.append(Conv3d(in_channels=num_filters,
+                         out_channels=1,
+                         kernel_size=3,
+                         groups=num_groups,
+                         padding=1))
+    unet3d.append(Linear(in_features = block_size, out_features = block_size))
 
     # flatten the list of layer
     unet3d_flatten = []
