@@ -26,7 +26,7 @@ print(opt)
 
 # basic setting
 torch.manual_seed(opt.seed)
-device = torch.device("cuda" if not opt.cuda else "cpu")
+device = torch.device("cuda" if not opt.cpu else "cpu")
 print("Device: ", device)
 
 # set the dataset
