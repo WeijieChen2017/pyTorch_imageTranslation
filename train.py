@@ -11,9 +11,8 @@ from data import DatasetFromFolder
 
 def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
-    epoch_loss = 0
-    epoch_loss_list = []
-    loss_batch = []
+    epoch_loss = np.zeros((len(data_loader)))
+    loss_batch = np.zeros((loss_batch_cnt))
     for iteration, batch in enumerate(data_loader, 1):
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         # batch_x = torch.from_numpy(batch_x).double()
@@ -21,27 +20,19 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         # print(batch_x.size())
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
-        epoch_loss += loss.item()
         loss.backward()
         optimizer.step()
-        loss_batch.append(loss.item())
-        epoch_loss_list.append(loss.item())
+        loss_batch[iteration % loss_batch_cnt] = loss.item()
+        epoch_loss_list[iteration] = loss.item()
 
-        if len(loss_batch) % loss_batch_cnt == 0:
-            loss_package = np.asarray(loss_batch)
-            loss_mean = np.mean(loss_package)
-            loss_std = np.std(loss_package)
-            print("===> Epoch[{}]({}/{}): {:.6f}".format(epoch, iteration, len(data_loader)), end='')
-            print("Loss mean: {:.6f}".format(loss_mean), " Loss std: ".format(loss_std))
+        if (iteration-1) % loss_batch_cnt == 0:
+            loss_mean = np.mean(loss_batch)
+            loss_std = np.std(loss_batch)
+            print("===> Epoch[{}]({}/{}): ".format(epoch, iteration, len(data_loader)), end='')
+            print("Loss mean: {:.6f} Loss std: {:.6f}".format(loss_mean, loss_std))
             loss_batch = []
-        
-    loss_package = np.asarray(loss_batch)
-    loss_mean = np.mean(loss_package)
-    loss_std = np.std(loss_package)
-    print("===> Epoch[{}]({}/{}): {:.6f}".format(epoch, iteration, len(data_loader)), end='')
-    print("Loss mean: {:.6f}".format(loss_mean), " Loss std: ".format(loss_std))
 
-    return epoch_loss_list
+    return epoch_loss
 
 
 # training setting
@@ -109,19 +100,19 @@ print("===> The network, loss, optimizer are set")
 val_loss_best = 1e6
 for epoch in range(opt.epochs):
 
-    loss_list = np.asarray(train_a_epoch(dataloader_train, epoch, device, opt.loss_batch_cnt))
-    loss_mean = np.mean(epoch_loss_list)
-    loss_std = np.std(epoch_loss_list)
-    np.save("epoch_Loss_{}.npy".format(epoch), np.asarray(loss_list))
-    print("===> Epoch {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch, loss_mean, loss_std))
+    epoch_loss = train_a_epoch(dataloader_train, epoch, device, opt.loss_batch_cnt)
+    epoch_mean = np.mean(epoch_loss)
+    epoch_std = np.std(epoch_loss)
+    np.save("epoch_Loss_{}.npy".format(epoch), epoch_std)
+    print("===> Epoch {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch, epoch_mean, epoch_std))
 
-    loss_list = np.asarray(train_a_epoch(dataloader_val, epoch, device, opt.loss_batch_cnt))
-    loss_mean = np.mean(epoch_loss_list)
-    loss_std = np.std(epoch_loss_list)
-    np.save("val{}.npy".format(epoch), np.asarray(loss_list))
-    print("===> Val {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch, loss_mean, loss_std))
+    val_loss = np.asarray(train_a_epoch(dataloader_val, epoch, device, opt.loss_batch_cnt))
+    val_mean = np.mean(val_loss)
+    val_std = np.std(val_loss)
+    np.save("val{}.npy".format(epoch), val_loss)
+    print("===> Val {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch, val_mean, val_std))
 
-    if loss_mean < val_loss_best:
+    if val_loss < val_loss_best:
         model_save_path = "model_best_{}.pth".format(opt.model_tag)
         torch.save(model, model_save_path)
         print("Checkpoint saved to {}".format(model_save_path))
