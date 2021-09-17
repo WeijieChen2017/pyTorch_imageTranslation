@@ -66,7 +66,7 @@ epoch_loss = 0
 epoch_loss_list = []
 for iteration, batch in enumerate(dataloader_test, 1):
     batch_x, batch_y, filename = batch[0].to(device), batch[1].to(device), batch[2]
-    sample_name = os.path.basename(filename[0])
+    sample_name = os.path.basename(filename[0][0])
     sample_path = os.path.join(testSaveFolder, sample_name.replace("X", "pred"))
     pred = model(batch_x)
     np.save(sample_path, np.squeeze(pred.detach().numpy()))
