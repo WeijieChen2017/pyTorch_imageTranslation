@@ -13,6 +13,9 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
     epoch_loss = np.zeros((len(data_loader)))
     loss_batch = np.zeros((loss_batch_cnt))
+    for idx in range(loss_batch_cnt):
+        print(idx)
+        loss_batch[idx] = 1
     # print(loss_batch.shape)
     for iteration, batch in enumerate(data_loader, 0): # start from 0
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
