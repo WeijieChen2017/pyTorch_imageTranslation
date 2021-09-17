@@ -72,7 +72,7 @@ for iteration, batch in enumerate(dataloader_test, 1):
     np.save(sample_path, np.squeeze(pred.detach().numpy()))
     loss = criterion(pred, batch_y)
     epoch_loss += loss.item()
-    print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_test), loss.item()))
+    print("===> ({}/{}): Loss: {:.6f}".format(iteration, len(dataloader_test), loss.item()))
     epoch_loss_list.append(loss.item())
 
 print("The loss is ", epoch_loss / len(dataloader_test))
