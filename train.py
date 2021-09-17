@@ -28,7 +28,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         if iteration % loss_batch_cnt == loss_batch_cnt - 1:
             loss_mean = np.mean(loss_batch)
             loss_std = np.std(loss_batch)
-            print("===> Epoch[{}]({}/{}): ".format(epoch, iteration, len(data_loader)), end='')
+            print("===> Epoch[{}]({}/{}): ".format(epoch + 1, iteration + 1, len(data_loader)), end='')
             print("Loss mean: {:.6f} Loss std: {:.6f}".format(loss_mean, loss_std))
 
     return epoch_loss
@@ -36,9 +36,9 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=2, help='training batch size')
-parser.add_argument('--loss_batch_cnt', type=int, default=4, help='loss display batch')
-parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
+parser.add_argument('--batch_size', type=int, default=16, help='training batch size')
+parser.add_argument('--loss_batch_cnt', type=int, default=8, help='loss display batch')
+parser.add_argument('--epochs', type=int, default=4, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=8, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
