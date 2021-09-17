@@ -13,6 +13,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
     epoch_loss = np.zeros((len(data_loader)))
     loss_batch = np.zeros((loss_batch_cnt))
+    print(loss_batch.shape)
     for iteration, batch in enumerate(data_loader, 1): # start from 0
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         # batch_x = torch.from_numpy(batch_x).double()
@@ -22,6 +23,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         loss = criterion(model(batch_x), batch_y)
         loss.backward()
         optimizer.step()
+        print(iteration % loss_batch_cnt)
         loss_batch[iteration % loss_batch_cnt] = loss.item()
         epoch_loss[iteration - 1] = loss.item()
 
