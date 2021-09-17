@@ -42,16 +42,16 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 64
-stride = 32
+block_size = 128
+stride = 64
 
 # create directory and search nifty files
-trainFolderX = "./data_train/X64/train/"
-trainFolderY = "./data_train/Y64/train/"
-testFolderX = "./data_train/X64/test/"
-testFolderY = "./data_train/Y64/test/"
-valFolderX = "./data_train/X64/val/"
-valFolderY = "./data_train/Y64/val/"
+trainFolderX = "./data_train/X"+str(block_size)+"/train/"
+trainFolderY = "./data_train/Y"+str(block_size)+"/train/"
+testFolderX = "./data_train/X"+str(block_size)+"/test/"
+testFolderY = "./data_train/Y"+str(block_size)+"/test/"
+valFolderX = "./data_train/X"+str(block_size)+"/val/"
+valFolderY = "./data_train/Y"+str(block_size)+"/val/"
 
 for folderName in [trainFolderX, testFolderX, valFolderX,
                    trainFolderY, testFolderY, valFolderY]:
