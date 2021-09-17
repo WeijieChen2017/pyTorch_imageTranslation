@@ -13,7 +13,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
     epoch_loss = np.zeros((len(data_loader)))
     loss_batch = np.zeros((loss_batch_cnt))
-    for iteration, batch in enumerate(data_loader, 0): # start from 0
+    for iteration, batch in enumerate(data_loader, 1): # start from 0
         batch_x, batch_y = batch[0].to(device), batch[1].to(device)
         # batch_x = torch.from_numpy(batch_x).double()
         # batch_y = torch.from_numpy(batch_y).double()
@@ -22,10 +22,10 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         loss = criterion(model(batch_x), batch_y)
         loss.backward()
         optimizer.step()
-        loss_batch[iteration % loss_batch_cnt] = loss.item()
-        epoch_loss[iteration] = loss.item()
+        loss_batch[(iteration % loss_batch_cnt) - 1] = loss.item()
+        epoch_loss[iteration - 1] = loss.item()
 
-        if iteration % loss_batch_cnt == loss_batch_cnt - 1:
+        if iteration % loss_batch_cnt == 0:
             loss_mean = np.mean(loss_batch)
             loss_std = np.std(loss_batch)
             print("===> Epoch[{}]({}/{}): ".format(epoch, iteration, len(data_loader)), end='')
