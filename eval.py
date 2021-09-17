@@ -57,7 +57,7 @@ dataloader_test = DataLoader(dataset=dataset_test,
 print("===> Datasets and Dataloders are set")
 
 criterion = nn.HuberLoss()
-model = torch.load(opt.model_save_path)
+model = torch.load(opt.model_save_path).to(device)
 model.eval()
 print("===> The model {} are loaded.".format(opt.model_save_path))
 
