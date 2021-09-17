@@ -23,7 +23,7 @@ parser.add_argument('--cuda', action='store_true', help='use cuda?')
 parser.add_argument('--block_size', type=int, default=32, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
-parser.add_argument('--num_filters', type=int, default=16, help='the number of starting filters')
+parser.add_argument('--num_filters', type=int, default=48, help='the number of starting filters')
 
 parser.add_argument('--model_save_path', type=str, default='model_epoch_9.pth')
 
@@ -63,6 +63,7 @@ print("===> The model {} are loaded.".format(opt.model_save_path))
 
 
 epoch_loss = 0
+epoch_loss_list = []
 for iteration, batch in enumerate(dataloader_test, 1):
     batch_x, batch_y, filename = batch[0].to(device), batch[1].to(device), batch[2]
     sample_name = os.path.basename(filename[0])
@@ -72,6 +73,8 @@ for iteration, batch in enumerate(dataloader_test, 1):
     loss = criterion(pred, batch_y)
     epoch_loss += loss.item()
     print("===> ({}/{}): Loss: {:.4f}".format(iteration, len(dataloader_test), loss.item()))
-    
+    epoch_loss_list.append(loss.item())
+
 print("The loss is ", epoch_loss / len(dataloader_test))
+np.save("val_loss.npy", np.asarray(epoch_loss_list))
 
