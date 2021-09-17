@@ -35,8 +35,8 @@ torch.manual_seed(opt.seed)
 device = torch.device("cuda" if opt.cuda else "cpu")
 
 # set the dataset
-testFolderX = "./data_train/X/test/"
-testFolderY = "./data_train/Y/test/"
+testFolderX = "./data_train/X32/test/"
+testFolderY = "./data_train/Y32/test/"
 testSaveFolder = "./data_pred/cube"
 niftySaveFolder = "./data_pred/nifty"
 
