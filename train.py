@@ -22,7 +22,6 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         loss = criterion(model(batch_x), batch_y)
         loss.backward()
         optimizer.step()
-        print(iteration % loss_batch_cnt)
         loss_batch[iteration % loss_batch_cnt] = loss.item()
         epoch_loss[iteration] = loss.item()
 
