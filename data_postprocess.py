@@ -70,21 +70,23 @@ block_size = 128
 stride = 64
 
 # create directory and search nifty files
-testFolderX = "./data_train/X128/test/"
-testFolderY = "./data_train/Y128/test/"
+# testFolderX = "./data_train/X128/test/"
+# testFolderY = "./data_train/Y128/test/"
 
 # for folderName in [testFolderX, testFolderY]:
 #     if not os.path.exists(folderName):
 #         os.makedirs(folderName)
 
-testList = glob.glob(testFolderX+"/*.nii") + glob.glob(testFolderY+"/*.nii.gz")
-testList.sort()
-for testPath in testList:
-    print(testPath)
+# testList = glob.glob(testFolderX+"/*.nii") + glob.glob(testFolderY+"/*.nii.gz")
+# testList.sort()
+# for testPath in testList:
+#     print(testPath)
 
 # shuffle and create train/val/test file list
 np.random.seed(813)
-# testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
+testList = ['./data_train/NPR_SRC/NPR_011.nii.gz',
+            './data_train/NPR_SRC/NPR_063.nii.gz',
+            './data_train/NPR_SRC/NPR_143.nii.gz']
 folder_pred_cube = "./data_pred/cube/"
 folder_pred_nifty = "./data_pred/nifty/"
 
