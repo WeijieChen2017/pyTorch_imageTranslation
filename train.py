@@ -38,7 +38,8 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=36, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=24, help='training batch size')
+parser.add_argument('--batch_size_val', type=int, default=16, help='validation batch size')
 parser.add_argument('--loss_batch_cnt', type=int, default=16, help='loss display batch')
 parser.add_argument('--epochs', type=int, default=4, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
@@ -80,7 +81,7 @@ dataloader_train = DataLoader(dataset=dataset_train,
 
 dataloader_val = DataLoader(dataset=dataset_val,
                             num_workers=opt.data_worker,
-                            batch_size=opt.batch_size,
+                            batch_size=opt.batch_size_val,
                             shuffle=True)
 print("===> Datasets and Dataloders are set")
 
@@ -96,7 +97,10 @@ model = UNet(dimensions=3,
              out_channels=1,
              channels=(16, 32, 64, 128, 256),
              strides=(2, 2, 2, 2),
-             num_res_units=2).to(device)
+             num_res_units=2)
+model.add_module(nn.Linear(in_features = opt.block_size, 
+                           out_features = opt.block_size))
+model.to(device)
 model.double()
 
 criterion = nn.HuberLoss()

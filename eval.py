@@ -25,7 +25,7 @@ parser.add_argument('--stride', type=int, default=32, help='the stride in datase
 parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
 parser.add_argument('--num_filters', type=int, default=48, help='the number of starting filters')
 
-parser.add_argument('--model_save_path', type=str, default='model_epoch_9.pth')
+parser.add_argument('--model_save_path', type=str, default='model_best_MONAI.pth')
 
 opt = parser.parse_args()
 print(opt)
@@ -35,8 +35,8 @@ torch.manual_seed(opt.seed)
 device = torch.device("cuda" if opt.cuda else "cpu")
 
 # set the dataset
-testFolderX = "./data_train/X32/test/"
-testFolderY = "./data_train/Y32/test/"
+testFolderX = "./data_train/X128/test/"
+testFolderY = "./data_train/Y128/test/"
 testSaveFolder = "./data_pred/cube"
 niftySaveFolder = "./data_pred/nifty"
 
