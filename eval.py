@@ -17,11 +17,8 @@ parser.add_argument('--batch_size', type=int, default=1, help='training batch si
 parser.add_argument('--data_worker', type=int, default=4, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cuda', action='store_true', help='use cuda?')
-parser.add_argument('--block_size', type=int, default=32, help='the block size of each input')
+parser.add_argument('--block_size', type=int, default=128, help='the block size of each input')
 parser.add_argument('--stride', type=int, default=32, help='the stride in dataset')
-parser.add_argument('--depth', type=int, default=2, help='the depth of unet')
-parser.add_argument('--num_filters', type=int, default=48, help='the number of starting filters')
-
 parser.add_argument('--model_save_path', type=str, default='model_best_MONAI.pth')
 
 opt = parser.parse_args()
@@ -32,8 +29,8 @@ torch.manual_seed(opt.seed)
 device = torch.device("cuda" if opt.cuda else "cpu")
 
 # set the dataset
-testFolderX = "./data_train/X128/test/"
-testFolderY = "./data_train/Y128/test/"
+testFolderX = "./data_train/X"+str(opt.block_size)+"/test/"
+testFolderY = "./data_train/Y"+str(opt.block_size)+"/test/"
 testSaveFolder = "./data_pred/cube"
 niftySaveFolder = "./data_pred/nifty"
 
@@ -53,6 +50,7 @@ dataloader_test = DataLoader(dataset=dataset_test,
 
 print("===> Datasets and Dataloders are set")
 
+print("Model name: ", opt.model_save_path)
 criterion = nn.HuberLoss()
 model = torch.load(opt.model_save_path).to(device)
 model.eval()

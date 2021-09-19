@@ -73,18 +73,18 @@ stride = 64
 testFolderX = "./data_train/X/test/"
 testFolderY = "./data_train/Y/test/"
 
-for folderName in [testFolderX, testFolderY]:
-    if not os.path.exists(folderName):
-        os.makedirs(folderName)
+# for folderName in [testFolderX, testFolderY]:
+#     if not os.path.exists(folderName):
+#         os.makedirs(folderName)
 
-# fileList = glob.glob(folderX+"/*.nii") + glob.glob(folderX+"/*.nii.gz")
-# fileList.sort()
-# for filePath in fileList:
-#     print(filePath)
+testList = glob.glob(testFolderX+"/*.nii") + glob.glob(testFolderY+"/*.nii.gz")
+testList.sort()
+for testPath in testList:
+    print(testPath)
 
 # shuffle and create train/val/test file list
 np.random.seed(813)
-testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
+# testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 folder_pred_cube = "./data_pred/cube/"
 folder_pred_nifty = "./data_pred/nifty/"
 
