@@ -70,8 +70,8 @@ block_size = 128
 stride = 64
 
 # create directory and search nifty files
-testFolderX = "./data_train/X/test/"
-testFolderY = "./data_train/Y/test/"
+testFolderX = "./data_train/X128/test/"
+testFolderY = "./data_train/Y128/test/"
 
 # for folderName in [testFolderX, testFolderY]:
 #     if not os.path.exists(folderName):
