@@ -50,7 +50,7 @@ parser.add_argument('--block_size', type=int, default=128, help='the block size 
 parser.add_argument('--stride', type=int, default=64, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=4, help='the depth of unet')
 parser.add_argument('--num_filters', type=int, default=8, help='the number of starting filters')
-parser.add_argument('--model_tag', type=str, default="MONAI_UnetR", help='tag of the current model')
+parser.add_argument('--model_tag', type=str, default="MONAI", help='tag of the current model')
 parser.add_argument('--continue_train', action='store_true', help='continue training?')
 opt = parser.parse_args()
 print(opt)
