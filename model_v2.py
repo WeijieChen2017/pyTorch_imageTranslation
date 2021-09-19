@@ -4,6 +4,43 @@ from torch.nn import ELU, LeakyReLU, ReLU, Linear
 from torch.nn import Dropout3d, MaxPool3d, AdaptiveMaxPool3d
 from torch import nn
 
+class conv_block(nn.Module):
+
+    def __init__(self, block_size, in_chan, out_chan, norm, acti, skip):
+        super(conv_block, self).__init__()
+        self.block_size = block_size
+        self.in_chan = in_chan
+        self.out_chan = out_chan,
+        self.norm = norm
+        self.acti = acti
+        self.skip = skip
+
+        self.conv = nn.Sequential()
+        self.conv.add_module(Conv3d(in_channels = self.in_chan,
+                                    out_channels = self.out_chan,
+                                    kernel_size = 3,
+                                    padding = 1))
+        self.conv.add_module(InstanceNorm3d(num_features=out_channels))
+        self.conv.add_module(Conv3d(in_channels = self.in_chan,
+                                    out_channels = self.out_chan,
+                                    kernel_size = 3,
+                                    padding = 1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Net(nn.Module):
 
     def __init__(self, block_size=64, num_filters=16, num_level=2, verbose=False):

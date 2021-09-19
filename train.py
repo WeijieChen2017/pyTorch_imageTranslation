@@ -94,8 +94,9 @@ print("===> Datasets and Dataloders are set")
 #             verbose = False).to(device)
 # model.double()
 model_save_path
-if continue_train:
-    model = torch.load(opt.model_save_path).to(device)
+if opt.continue_train:
+    model = torch.load(model_save_path).to(device)
+    print("The model has been loaded from: ", model_save_path)
 else:
     model = UNet(dimensions=3,
                  in_channels=1,
@@ -107,6 +108,7 @@ else:
                                          out_features = opt.block_size))
     model.to(device)
     model.double()
+    print("The model has created.")
 
 criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
