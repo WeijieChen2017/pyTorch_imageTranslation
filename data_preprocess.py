@@ -83,6 +83,15 @@ trainList.sort()
 # valList = ['./data_train/NPR_SRC/NPR_059.nii.gz']
 # testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 
+# --------------------------------------------------
+# Training list:  ['./data_train/NPR_SRC/NPR_001.nii.gz', './data_train/NPR_SRC/NPR_007.nii.gz', './data_train/NPR_SRC/NPR_017.nii.gz', './data_train/NPR_SRC/NPR_019.nii.gz', './data_train/NPR_SRC/NPR_024.nii.gz', './data_train/NPR_SRC/NPR_026.nii.gz', './data_train/NPR_SRC/NPR_028.nii.gz', './data_train/NPR_SRC/NPR_029.nii.gz', './data_train/NPR_SRC/NPR_031.nii.gz', './data_train/NPR_SRC/NPR_044.nii.gz', './data_train/NPR_SRC/NPR_057.nii.gz', './data_train/NPR_SRC/NPR_059.nii.gz', './data_train/NPR_SRC/NPR_067.nii.gz', './data_train/NPR_SRC/NPR_068.nii.gz', './data_train/NPR_SRC/NPR_078.nii.gz', './data_train/NPR_SRC/NPR_082.nii.gz', './data_train/NPR_SRC/NPR_095.nii.gz', './data_train/NPR_SRC/NPR_098.nii.gz', './data_train/NPR_SRC/NPR_101.nii.gz', './data_train/NPR_SRC/NPR_103.nii.gz', './data_train/NPR_SRC/NPR_104.nii.gz', './data_train/NPR_SRC/NPR_130.nii.gz', './data_train/NPR_SRC/NPR_138.nii.gz', './data_train/NPR_SRC/NPR_142.nii.gz', './data_train/NPR_SRC/NPR_159.nii.gz']
+# --------------------------------------------------
+# Validation list:  ['./data_train/NPR_SRC/NPR_051.nii.gz', './data_train/NPR_SRC/NPR_054.nii.gz', './data_train/NPR_SRC/NPR_056.nii.gz', './data_train/NPR_SRC/NPR_097.nii.gz', './data_train/NPR_SRC/NPR_127.nii.gz', './data_train/NPR_SRC/NPR_128.nii.gz', './data_train/NPR_SRC/NPR_133.nii.gz']
+# --------------------------------------------------
+# Testing list:  ['./data_train/NPR_SRC/NPR_011.nii.gz', './data_train/NPR_SRC/NPR_063.nii.gz', './data_train/NPR_SRC/NPR_143.nii.gz']
+# --------------------------------------------------
+
+
 print('-'*50)
 print("Training list: ", trainList)
 print('-'*50)
