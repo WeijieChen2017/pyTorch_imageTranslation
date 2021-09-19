@@ -50,7 +50,8 @@ parser.add_argument('--block_size', type=int, default=128, help='the block size 
 parser.add_argument('--stride', type=int, default=64, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=4, help='the depth of unet')
 parser.add_argument('--num_filters', type=int, default=8, help='the number of starting filters')
-parser.add_argument('--model_tag', type=str, default="MONAI", help='tag of the current model')
+parser.add_argument('--model_tag', type=str, default="MONAI_UnetR", help='tag of the current model')
+parser.add_argument('--continue_train', action='store_false', help='continue training?')
 opt = parser.parse_args()
 print(opt)
 
@@ -66,6 +67,7 @@ testFolderX = "./data_train/X"+str(opt.block_size)+"/test/"
 testFolderY = "./data_train/Y"+str(opt.block_size)+"/test/"
 valFolderX = "./data_train/X"+str(opt.block_size)+"/val/"
 valFolderY = "./data_train/Y"+str(opt.block_size)+"/val/"
+model_save_path = "model_best_{}.pth".format(opt.model_tag)
 
 dataset_train = DatasetFromFolder(data_dir_X = trainFolderX,
                                   data_dir_Y = trainFolderY,
@@ -91,17 +93,20 @@ print("===> Datasets and Dataloders are set")
 #             num_level = opt.depth,
 #             verbose = False).to(device)
 # model.double()
-
-model = UNet(dimensions=3,
-             in_channels=1,
-             out_channels=1,
-             channels=(16, 32, 64, 128, 256),
-             strides=(2, 2, 2, 2),
-             num_res_units=2)
-model.add_module("linear", nn.Linear(in_features = opt.block_size, 
-                                     out_features = opt.block_size))
-model.to(device)
-model.double()
+model_save_path
+if continue_train:
+    model = torch.load(opt.model_save_path).to(device)
+else:
+    model = UNet(dimensions=3,
+                 in_channels=1,
+                 out_channels=1,
+                 channels=(16, 32, 64, 128, 256),
+                 strides=(2, 2, 2, 2),
+                 num_res_units=2)
+    model.add_module("linear", nn.Linear(in_features = opt.block_size, 
+                                         out_features = opt.block_size))
+    model.to(device)
+    model.double()
 
 criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
@@ -127,7 +132,6 @@ for epoch in range(opt.epochs):
     print("===> Val {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch+1, val_mean, val_std))
 
     if val_mean < val_loss_best:
-        model_save_path = "model_best_{}.pth".format(opt.model_tag)
         torch.save(model, model_save_path)
         print("Checkpoint saved to {}".format(model_save_path))
 
