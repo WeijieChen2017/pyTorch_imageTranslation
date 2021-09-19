@@ -98,8 +98,8 @@ model = UNet(dimensions=3,
              channels=(16, 32, 64, 128, 256),
              strides=(2, 2, 2, 2),
              num_res_units=2)
-model.add_module(nn.Linear(in_features = opt.block_size, 
-                           out_features = opt.block_size))
+model.add_module("linear", nn.Linear(in_features = opt.block_size, 
+                                     out_features = opt.block_size))
 model.to(device)
 model.double()
 
