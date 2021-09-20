@@ -136,6 +136,7 @@ for epoch in range(opt.epochs):
     if val_mean < val_loss_best:
         torch.save(model, model_save_path)
         print("Checkpoint saved to {}".format(model_save_path))
+        val_loss_best = val_mean
 
 # # (N,C,D,H,W)
 # input = torch.randn(4, 1, 32, 32, 32).double()
