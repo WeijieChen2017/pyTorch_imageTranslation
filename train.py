@@ -42,7 +42,7 @@ parser.add_argument('--batch_size', type=int, default=24, help='training batch s
 parser.add_argument('--batch_size_val', type=int, default=16, help='validation batch size')
 parser.add_argument('--loss_batch_cnt', type=int, default=32, help='loss display batch')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
-parser.add_argument('--lr', type=float, default=0.001, help='Learning Rate. Default=0.01')
+parser.add_argument('--lr', type=float, default=1e-4, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=4, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cpu', action='store_true', help='use cuda?')
@@ -50,7 +50,8 @@ parser.add_argument('--block_size', type=int, default=128, help='the block size 
 parser.add_argument('--stride', type=int, default=64, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=4, help='the depth of unet')
 parser.add_argument('--num_filters', type=int, default=8, help='the number of starting filters')
-parser.add_argument('--model_tag', type=str, default="MONAI_MSE", help='tag of the current model')
+parser.add_argument('--model_tag', type=str, default="MONAI_HUBER", help='tag of the current model')
+parser.add_argument('--old_model', type=str, default="MONAI", help='name of the pre-trained model')
 parser.add_argument('--continue_train', action='store_true', help='continue training?')
 opt = parser.parse_args()
 print(opt)
@@ -67,7 +68,7 @@ testFolderX = "./data_train/X"+str(opt.block_size)+"/test/"
 testFolderY = "./data_train/Y"+str(opt.block_size)+"/test/"
 valFolderX = "./data_train/X"+str(opt.block_size)+"/val/"
 valFolderY = "./data_train/Y"+str(opt.block_size)+"/val/"
-model_save_path = "model_best_{}.pth".format(opt.model_tag)
+model_save_path = "model_best_{}.pth".format(opt.old_model)
 
 dataset_train = DatasetFromFolder(data_dir_X = trainFolderX,
                                   data_dir_Y = trainFolderY,
@@ -110,7 +111,8 @@ else:
     model.double()
     print("The model has created.")
 
-criterion = nn.MSELoss()
+# criterion = nn.MSELoss()
+criterion = nn.HuberLoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 # input = torch.randn(4, 1, opt.block_size, opt.block_size, opt.block_size).double().to(device)
 # model.summary(input)
@@ -124,13 +126,13 @@ for epoch in range(opt.epochs):
     epoch_loss = train_a_epoch(dataloader_train, epoch, device, opt.loss_batch_cnt)
     epoch_mean = np.mean(epoch_loss)
     epoch_std = np.std(epoch_loss)
-    np.save("epoch_Loss_{}.npy".format(epoch), epoch_std)
+    np.save("epoch_Loss_{}_{}.npy".format(epoch, opt.model_tag), epoch_std)
     print("===> Epoch {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch+1, epoch_mean, epoch_std))
 
     val_loss = np.asarray(train_a_epoch(dataloader_val, epoch, device, opt.loss_batch_cnt))
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
-    np.save("val{}.npy".format(epoch), val_loss)
+    np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
     print("===> Val {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch+1, val_mean, val_std))
 
     if val_mean < val_loss_best:
