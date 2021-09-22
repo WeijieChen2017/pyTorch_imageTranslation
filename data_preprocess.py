@@ -5,7 +5,7 @@ import glob
 import os
 
 from multiprocessing import Pool
-
+os.system("taskset -p 0xff %d" % os.getpid())
 
 def save_each_nifty(folderX, folderY, pathX):
 
