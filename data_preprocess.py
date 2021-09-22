@@ -155,8 +155,7 @@ for package in [packageTest, packageVal, packageTrain]:
 
     # npy version
     for pathX in fileList:
-        args = [folderX, folderY, pathX]
-        dataLoaderPool.apply_async(save_each_nifty, args=args) # , args=args
+        dataLoaderPool.apply_async(save_each_nifty, args=[folderX, folderY, pathX])
 
 dataLoaderPool.close()
 dataLoaderPool.join()
