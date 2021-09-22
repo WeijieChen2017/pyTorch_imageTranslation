@@ -9,6 +9,8 @@ from multiprocessing import Pool
 
 def save_each_nifty(args):
 
+    print("Current PID: ", os.getpid())
+
     folderX = args[0]
     folderY = args[1]
     pathX = args[2]
@@ -154,7 +156,7 @@ for package in [packageTest, packageVal, packageTrain]:
     # npy version
     for pathX in fileList:
         args = [folderX, folderY, pathX]
-        dataLoaderPool.apply_async(save_each_nifty(args)) # , args=args
+        dataLoaderPool.apply_async(save_each_nifty, args=args) # , args=args
 
     dataLoaderPool.close()
     dataLoaderPool.join()
