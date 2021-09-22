@@ -5,8 +5,10 @@ import glob
 import os
 
 from multiprocessing import Pool
+import affinity
 # os.system("taskset -p 0xff %d" % os.getpid())
 os.sched_setaffinity(0,range(1000))
+affinity.set_process_affinity_mask(0, 2**multiprocessing.cpu_count()-1)
 
 def save_each_nifty(folderX, folderY, pathX):
 
