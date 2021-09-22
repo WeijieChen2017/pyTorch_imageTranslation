@@ -144,7 +144,7 @@ packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
-dataLoaderPool = Pool()
+dataLoaderPool = Pool(16)
 
 for package in [packageTest, packageVal, packageTrain]:
 
@@ -158,8 +158,8 @@ for package in [packageTest, packageVal, packageTrain]:
         args = [folderX, folderY, pathX]
         dataLoaderPool.apply_async(save_each_nifty, args=args) # , args=args
 
-    dataLoaderPool.close()
-    dataLoaderPool.join()
+dataLoaderPool.close()
+dataLoaderPool.join()
 
 
     
