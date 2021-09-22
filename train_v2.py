@@ -38,20 +38,20 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=24, help='training batch size')
-parser.add_argument('--batch_size_val', type=int, default=16, help='validation batch size')
-parser.add_argument('--loss_batch_cnt', type=int, default=32, help='loss display batch')
+parser.add_argument('--batch_size', type=int, default=40, help='training batch size')
+parser.add_argument('--batch_size_val', type=int, default=64, help='validation batch size')
+parser.add_argument('--loss_batch_cnt', type=int, default=64, help='loss display batch')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning Rate. Default=0.01')
-parser.add_argument('--data_worker', type=int, default=4, help='number of threads for data loader to use')
+parser.add_argument('--data_worker', type=int, default=8, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cpu', action='store_true', help='use cuda?')
-parser.add_argument('--block_size', type=int, default=128, help='the block size of each input')
-parser.add_argument('--stride', type=int, default=64, help='the stride in dataset')
+parser.add_argument('--block_size', type=int, default=80, help='the block size of each input')
+parser.add_argument('--stride', type=int, default=40, help='the stride in dataset')
 parser.add_argument('--depth', type=int, default=4, help='the depth of unet')
 parser.add_argument('--num_filters', type=int, default=8, help='the number of starting filters')
-parser.add_argument('--model_tag', type=str, default="MONAI_HUBER", help='tag of the current model')
-parser.add_argument('--old_model', type=str, default="MONAI", help='name of the pre-trained model')
+parser.add_argument('--model_tag', type=str, default="Huber80_wide", help='tag of the current model')
+parser.add_argument('--old_model', type=str, default="Huber80_wide", help='name of the pre-trained model')
 parser.add_argument('--continue_train', action='store_true', help='continue training?')
 opt = parser.parse_args()
 print(opt)
@@ -102,7 +102,7 @@ else:
     model = UNet(dimensions=3,
                  in_channels=1,
                  out_channels=1,
-                 channels=(16, 32, 64, 128, 256),
+                 channels=(32, 64, 128, 256, 512),
                  strides=(2, 2, 2, 2),
                  num_res_units=2)
     model.add_module("linear", nn.Linear(in_features = opt.block_size, 
