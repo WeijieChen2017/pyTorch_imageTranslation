@@ -156,8 +156,7 @@ for package in [packageTest, packageVal, packageTrain]:
     # npy version
     for pathX in fileList:
         print(pathX, ' '*4, end='')
-        oz = (folderX, folderY, pathX)
-        flag = dataLoaderPool.apply_async(save_each_nifty, args=oz)
+        flag = dataLoaderPool.apply_async(target=save_each_nifty, args=(folderX, folderY, pathX))
         print("==>Current PID: ", flag.get(), "finished. ")
 
 dataLoaderPool.close()
