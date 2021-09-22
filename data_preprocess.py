@@ -9,8 +9,6 @@ from multiprocessing import Pool
 
 def save_each_nifty(args):
 
-    print("Current PID: ", os.getpid())
-
     folderX = args[0]
     folderY = args[1]
     pathX = args[2]
@@ -42,6 +40,8 @@ def save_each_nifty(args):
     print("&"*10)
     print(filenameX)
     print(len(listCordX) * len(listCordY) * len(listCordZ), " files are saved.")
+
+    return os.getpid()
 
 def create_index_3d(data, block_size, stride):
     
@@ -155,8 +155,10 @@ for package in [packageTest, packageVal, packageTrain]:
 
     # npy version
     for pathX in fileList:
-        print(pathX, ' '*8, end='')
-        dataLoaderPool.apply_async(save_each_nifty, args=[folderX, folderY, pathX])
+        print(pathX, ' '*4, end='')
+        flag = dataLoaderPool.apply_async(save_each_nifty, args=[folderX, folderY, pathX])
+        print("==>Current PID: ", flag.get(), "finished. ")
+
 
 dataLoaderPool.close()
 dataLoaderPool.join()
