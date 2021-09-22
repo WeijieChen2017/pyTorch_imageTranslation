@@ -141,7 +141,7 @@ packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
-dataLoaderPool = Pool(14)
+dataLoaderPool = Pool()
 
 for package in [packageTest, packageVal, packageTrain]:
 
