@@ -155,6 +155,7 @@ for package in [packageTest, packageVal, packageTrain]:
 
     # npy version
     for pathX in fileList:
+        print(pathX, ' '*8, end='')
         dataLoaderPool.apply_async(save_each_nifty, args=[folderX, folderY, pathX])
 
 dataLoaderPool.close()
