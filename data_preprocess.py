@@ -142,18 +142,19 @@ packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
+dataLoaderPool = Pool()
+
 for package in [packageTest, packageVal, packageTrain]:
 
     fileList = package[0]
     folderX = package[1]
     folderY = package[2]
     print("-"*25, package[3], "-"*25)
-    
-    dataLoaderPool = Pool()
+
     # npy version
     for pathX in fileList:
         args = [folderX, folderY, pathX]
-        dataLoaderPool.apply_async(save_each_nifty, args=args)
+        dataLoaderPool.apply_async(save_each_nifty(args)) # , args=args
 
     dataLoaderPool.close()
     dataLoaderPool.join()
