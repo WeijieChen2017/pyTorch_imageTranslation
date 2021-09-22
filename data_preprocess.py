@@ -7,11 +7,7 @@ import os
 from multiprocessing import Pool
 
 
-def save_each_nifty(args):
-
-    folderX = args[0]
-    folderY = args[1]
-    pathX = args[2]
+def save_each_nifty(folderX, folderY, pathX):
 
     pathY = pathX.replace("NPR", "CT")
     filenameX = os.path.basename(pathX)[4:7]
@@ -156,7 +152,7 @@ for package in [packageTest, packageVal, packageTrain]:
     # npy version
     for pathX in fileList:
         print(pathX, ' '*4, end='')
-        pid = dataLoaderPool.apply_async(save_each_nifty, args=(folderX, folderY, pathX,)).get()
+        pid = dataLoaderPool.apply_async(save_each_nifty, args=(folderX, folderY, pathX)).get()
         print("==>Current PID: ", pid, "finished. ")
 
 dataLoaderPool.close()
