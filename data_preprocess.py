@@ -49,8 +49,8 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 64
-stride = 16
+block_size = 80
+stride = 40
 
 # create directory and search nifty files
 trainFolderX = "./data_train/X"+str(block_size)+"/train/"
