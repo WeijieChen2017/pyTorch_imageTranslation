@@ -121,6 +121,8 @@ for package in [packageTest, packageVal, packageTrain]:
 
     # npy version
     for pathX in fileList:
+        
+        print("&"*10)
         print(pathX)
         pathY = pathX.replace("NPR", "CT")
         filenameX = os.path.basename(pathX)[4:7]
@@ -146,7 +148,7 @@ for package in [packageTest, packageVal, packageTrain]:
                     savenameY += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
                     np.save(savenameX, dataPadX[start_x:end_x, start_y:end_y, start_z:end_z])
                     np.save(savenameY, dataPadY[start_x:end_x, start_y:end_y, start_z:end_z])
-        print("&"*10)
+        
         print(filenameX)
         print(len(listCordX) * len(listCordY) * len(listCordZ), " files are saved.")
 
