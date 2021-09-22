@@ -26,8 +26,8 @@ def create_index_3d(data, block_size, stride):
 
 def normX(data):
     data[data<0] = 0
-    data[data>6000] = 6000
-    data = data / 6000
+    data[data>3000] = 3000  
+    data = data / 3000
     return data
 
 def normY(data):
@@ -42,8 +42,8 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 128
-stride = 64
+block_size = 64
+stride = 32
 
 # create directory and search nifty files
 trainFolderX = "./data_train/X"+str(block_size)+"/train/"
