@@ -7,43 +7,39 @@ import os
 from multiprocessing import Pool
 
 
-def save_each_nifty(package):
+def save_each_nifty(args):
 
-    fileList = package[0]
-    folderX = package[1]
-    folderY = package[2]
-    print("-"*25, package[3], "-"*25)
+    folderX = args[0]
+    folderY = args[1]
+    pathX = args[2]
+
+    pathY = pathX.replace("NPR", "CT")
+    filenameX = os.path.basename(pathX)[4:7]
+    filenameY = os.path.basename(pathY)[3:6]
+    dataX = nib.load(pathX).get_fdata()
+    dataY = nib.load(pathY).get_fdata()
+    dataNormX = normX(dataX)
+    dataNormY = normY(dataY)
+
+    listStart, dataPadX = create_index_3d(dataNormX, block_size, stride)
+    listStart, dataPadY = create_index_3d(dataNormY, block_size, stride)
     
-    # npy version
-    for pathX in fileList:
+    listCordX = listStart[0]
+    listCordY = listStart[1]
+    listCordZ = listStart[2]
 
-        pathY = pathX.replace("NPR", "CT")
-        filenameX = os.path.basename(pathX)[4:7]
-        filenameY = os.path.basename(pathY)[3:6]
-        dataX = nib.load(pathX).get_fdata()
-        dataY = nib.load(pathY).get_fdata()
-        dataNormX = normX(dataX)
-        dataNormY = normY(dataY)
-
-        listStart, dataPadX = create_index_3d(dataNormX, block_size, stride)
-        listStart, dataPadY = create_index_3d(dataNormY, block_size, stride)
-        
-        listCordX = listStart[0]
-        listCordY = listStart[1]
-        listCordZ = listStart[2]
-
-        for start_x, end_x in listCordX:
-            for start_y, end_y in listCordY:
-                for start_z, end_z in listCordZ:
-                    savenameX = folderX + "X_" + filenameX 
-                    savenameX += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
-                    savenameY = folderY + "Y_" + filenameY
-                    savenameY += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
-                    np.save(savenameX, dataPadX[start_x:end_x, start_y:end_y, start_z:end_z])
-                    np.save(savenameY, dataPadY[start_x:end_x, start_y:end_y, start_z:end_z])
-        print("&"*10)
-        print(filenameX)
-        print(len(listCordX) * len(listCordY) * len(listCordZ), " files are saved.")
+    for start_x, end_x in listCordX:
+        for start_y, end_y in listCordY:
+            for start_z, end_z in listCordZ:
+                savenameX = folderX + "X_" + filenameX 
+                savenameX += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
+                savenameY = folderY + "Y_" + filenameY
+                savenameY += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
+                np.save(savenameX, dataPadX[start_x:end_x, start_y:end_y, start_z:end_z])
+                np.save(savenameY, dataPadY[start_x:end_x, start_y:end_y, start_z:end_z])
+    print("&"*10)
+    print(filenameX)
+    print(len(listCordX) * len(listCordY) * len(listCordZ), " files are saved.")
 
 def create_index_3d(data, block_size, stride):
     
@@ -148,9 +144,16 @@ np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
 for package in [packageTest, packageVal, packageTrain]:
 
+    fileList = package[0]
+    folderX = package[1]
+    folderY = package[2]
+    print("-"*25, package[3], "-"*25)
+    
     dataLoaderPool = Pool()
-    for i in range(len(package[0])):
-        dataLoaderPool.apply_async(save_each_nifty(package), args=package)
+    # npy version
+    for pathX in fileList:
+        args = [folderX, folderY, pathX]
+        dataLoaderPool.apply_async(save_each_nifty(package), args=args)
 
     dataLoaderPool.close()
     dataLoaderPool.join()
