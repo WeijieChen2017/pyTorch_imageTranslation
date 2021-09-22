@@ -38,7 +38,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
-parser.add_argument('--batch_size', type=int, default=40, help='training batch size')
+parser.add_argument('--batch_size', type=int, default=80, help='training batch size')
 parser.add_argument('--batch_size_val', type=int, default=64, help='validation batch size')
 parser.add_argument('--loss_batch_cnt', type=int, default=64, help='loss display batch')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
