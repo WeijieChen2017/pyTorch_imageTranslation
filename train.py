@@ -109,7 +109,7 @@ else:
     model.add_module("linear", nn.Linear(in_features = opt.block_size, 
                                          out_features = opt.block_size))
     model.to(device)
-    model.double()
+    model.float()
     print("The model has created.")
 
 # criterion = nn.MSELoss()
