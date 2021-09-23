@@ -49,8 +49,8 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 64
-stride = 32
+block_size = 128
+stride = 64
 
 # create directory and search nifty files
 trainFolderX = "./data_train/X"+str(block_size)+"/train/"
@@ -136,6 +136,8 @@ for package in [packageVal, packageTrain, packageTest]:
         filenameY = os.path.basename(pathY)[3:6]
         dataX = nib.load(pathX).get_fdata()
         dataY = nib.load(pathY).get_fdata()
+        dataX = dataX[:, :, dataX.shape[2]//2:]
+        dataY = dataY[:, :, dataY.shape[2]//2:]
         dataNormX = normX(dataX)
         dataNormY = normY(dataY)
 
