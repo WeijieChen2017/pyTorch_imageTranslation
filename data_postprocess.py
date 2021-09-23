@@ -36,7 +36,7 @@ def remove_pad(data_pad, data_ori, block_size, stride):
     before_y, after_y = pad_width[1]
     before_z, after_z = pad_width[2]
 
-    # data_cut = data_pad[before_x:-after_x, before_y:-after_y, before_z:-after_z]
+    data_cut = data_pad[before_x:-after_x, before_y:-after_y, before_z:-after_z]
     data_cut = data_pad[:, :, before_z:-after_z]
 
     print("Data_cut shape: ", data_cut.shape)
