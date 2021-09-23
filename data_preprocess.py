@@ -119,7 +119,7 @@ packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
-for package in [packageTest, packageVal, packageTrain]:
+for package in [packageVal, packageTrain, packageTest]:
 
     fileList = package[0]
     folderX = package[1]
@@ -164,7 +164,7 @@ for package in [packageTest, packageVal, packageTrain]:
                         np.save(savenameY, cutY)
                         cube_cnt += 1
                     else:
-                        if np.mean(cutX) > 1e-2 or np.mean(cutY) > 1e-2:
+                        if np.mean(cutX) > 1e-3 or np.mean(cutY) > 1e-3:
                             np.save(savenameX, cutX)
                             np.save(savenameY, cutY)
                             cube_cnt += 1
