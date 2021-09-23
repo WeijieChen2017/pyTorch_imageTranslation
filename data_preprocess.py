@@ -157,20 +157,21 @@ for package in [packageTest, packageVal, packageTrain]:
                     savenameY = folderY + "Y_" + filenameY
                     savenameY += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
                     
-                    cutX = dataPadX[start_x:end_x, start_y:end_y, start_z:end_z]
-                    cutY = dataPadY[start_x:end_x, start_y:end_y, start_z:end_z]
+                    cutX = dataPadX[start_x:end_x, start_y:end_y, start_z:end_z].astype(np.float32)
+                    cutY = dataPadY[start_x:end_x, start_y:end_y, start_z:end_z].astype(np.float32)
                     if package[3] == "Test":
                         np.save(savenameX, cutX)
                         np.save(savenameY, cutY)
-                        cube_cnt += 2
+                        cube_cnt += 1
                     else:
-                        if np.mean(cutX) > 1e-3 or np.mean(cutY) > 1e-3:
+                        if np.mean(cutX) > 1e-2 or np.mean(cutY) > 1e-2:
                             np.save(savenameX, cutX)
                             np.save(savenameY, cutY)
-                            cube_cnt += 2
-            
+                            cube_cnt += 1
+        
+        total_num = len(listCordX) * len(listCordY) * len(listCordZ)
         print(filenameX)
-        print(cube_cnt, " files are saved.")
+        print(cube_cnt, " files are saved. ({:2f}%)".format(cube_cnt/total_num*100))
 
 
     
