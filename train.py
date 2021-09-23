@@ -24,14 +24,15 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
         loss = criterion(model(batch_x), batch_y)
         loss.backward()
         optimizer.step()
-        loss_batch[iteration % loss_batch_cnt] = loss.item()
-        epoch_loss[iteration] = loss.item()
+        loss_voxel = loss.item() / opt.block_size ** 3
+        loss_batch[iteration % loss_batch_cnt] = loss_voxel
+        epoch_loss[iteration] = loss_voxel
 
         if iteration % loss_batch_cnt == loss_batch_cnt - 1:
             loss_mean = np.mean(loss_batch)
             loss_std = np.std(loss_batch)
             print("===> Epoch[{}]({}/{}): ".format(epoch + 1, iteration + 1, len(data_loader)), end='')
-            print("Loss mean: {:.6f} Loss std: {:.6f}".format(loss_mean, loss_std))
+            print("Loss mean: {:.6} Loss std: {:.6}".format(loss_mean, loss_std))
 
     return epoch_loss
 
@@ -127,13 +128,13 @@ for epoch in range(opt.epochs):
     epoch_mean = np.mean(epoch_loss)
     epoch_std = np.std(epoch_loss)
     np.save("epoch_Loss_{}_{}.npy".format(epoch, opt.model_tag), epoch_std)
-    print("===> Epoch {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch+1, epoch_mean, epoch_std))
+    print("===> Epoch {} Complete Loss, Avg: {:.6}, Std: {:.6}".format(epoch+1, epoch_mean, epoch_std))
 
     val_loss = np.asarray(train_a_epoch(dataloader_val, epoch, device, opt.loss_batch_cnt))
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
     np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
-    print("===> Val {} Complete Loss, Avg: {:.6f}, Std: {:.6f}".format(epoch+1, val_mean, val_std))
+    print("===> Val {} Complete Loss, Avg: {:.6}, Std: {:.6}".format(epoch+1, val_mean, val_std))
 
     if val_mean < val_loss_best:
         torch.save(model, model_save_path)
