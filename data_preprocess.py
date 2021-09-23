@@ -33,8 +33,8 @@ def create_index_3d(data, block_size, stride):
 
 def normX(data):
     data[data<0] = 0
-    data[data>3000] = 3000  
-    data = data / 3000
+    data[data>3000] = 6000  
+    data = data / 6000
     return data
 
 def normY(data):
@@ -43,8 +43,8 @@ def normY(data):
     data = (data + 1000) / 4000
     return data
 
-folderX = "./data_train/NPR_SRC/"
-folderY = "./data_train/CT_SRC/"
+folderX = "./data_train/RSPET/"
+folderY = "./data_train/RSCT/"
 valRatio = 0.2
 testRatio = 0.1
 channelX = 1
@@ -124,8 +124,8 @@ for package in [packageTest, packageVal, packageTrain]:
         
         print("&"*10)
         print(pathX)
-        pathY = pathX.replace("NPR", "CT")
-        filenameX = os.path.basename(pathX)[4:7]
+        pathY = pathX.replace("PET", "CT")
+        filenameX = os.path.basename(pathX)[3:6]
         filenameY = os.path.basename(pathY)[3:6]
         dataX = nib.load(pathX).get_fdata()
         dataY = nib.load(pathY).get_fdata()
