@@ -11,7 +11,7 @@ from data import DatasetFromFolder
 
 from monai.networks.nets import UNet
 
-def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
+def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt):
 
     epoch_loss = np.zeros((len(data_loader)))
     loss_batch = np.zeros((loss_batch_cnt))
@@ -40,7 +40,7 @@ def train_a_epoch(data_loader, epoch, device, loss_batch_cnt):
 # training setting
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
 parser.add_argument('--batch_size', type=int, default=16, help='training batch size')
-parser.add_argument('--batch_size_val', type=int, default=16, help='validation batch size')
+parser.add_argument('--batch_size_val', type=int, default=64, help='validation batch size')
 parser.add_argument('--loss_batch_cnt', type=int, default=64, help='loss display batch')
 parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=1e-3, help='Learning Rate. Default=0.01')
@@ -95,10 +95,21 @@ print("===> Datasets and Dataloders are set")
 #             num_level = opt.depth,
 #             verbose = False).to(device)
 # model.double()
-model_save_path
+# model_save_path
+criterion = nn.HuberLoss()
+optimizer = optim.Adam(model.parameters(), lr=opt.lr)
+
 if opt.continue_train:
     model = torch.load(model_save_path).to(device)
     print("The model has been loaded from: ", model_save_path)
+
+    val_loss = np.asarray(train_a_epoch(dataloader_val, model, 0, device, opt.loss_batch_cnt))
+    val_mean = np.mean(val_loss)
+    val_std = np.std(val_loss)
+    # np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
+    print("===> Previous Val {} Complete Loss, Avg: {:.6}, Std: {:.6}".format(epoch+1, val_mean, val_std))
+    val_loss_best = val_mean
+
 else:
     model = UNet(dimensions=3,
                  in_channels=1,
@@ -111,26 +122,24 @@ else:
     model.to(device)
     model.float()
     print("The model has created.")
+    val_loss_best = 1e6
 
 # criterion = nn.MSELoss()
-criterion = nn.HuberLoss()
-optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 # input = torch.randn(4, 1, opt.block_size, opt.block_size, opt.block_size).double().to(device)
 # model.summary(input)
 print("===> The network, loss, optimizer are set")
 
 # start the training
 
-val_loss_best = 1e6
 for epoch in range(opt.epochs):
 
-    epoch_loss = train_a_epoch(dataloader_train, epoch, device, opt.loss_batch_cnt)
+    epoch_loss = train_a_epoch(dataloader_train, model, epoch, device, opt.loss_batch_cnt)
     epoch_mean = np.mean(epoch_loss)
     epoch_std = np.std(epoch_loss)
     np.save("epoch_Loss_{}_{}.npy".format(epoch, opt.model_tag), epoch_std)
     print("===> Epoch {} Complete Loss, Avg: {:.6}, Std: {:.6}".format(epoch+1, epoch_mean, epoch_std))
 
-    val_loss = np.asarray(train_a_epoch(dataloader_val, epoch, device, opt.loss_batch_cnt))
+    val_loss = train_a_epoch(dataloader_val, model, epoch, device, opt.loss_batch_cnt)
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
     np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
