@@ -11,7 +11,7 @@ from data import DatasetFromFolder
 
 from monai.networks.nets import UNet
 
-def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt):
+def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt, bp=True):
 
     epoch_loss = np.zeros((len(data_loader)))
     loss_batch = np.zeros((loss_batch_cnt))
@@ -22,8 +22,9 @@ def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt):
         # print(batch_x.size())
         optimizer.zero_grad()
         loss = criterion(model(batch_x), batch_y)
-        loss.backward()
-        optimizer.step()
+        if bp:
+            loss.backward()
+            optimizer.step()
         loss_voxel = loss.item() / opt.block_size ** 3
         loss_batch[iteration % loss_batch_cnt] = loss_voxel
         epoch_loss[iteration] = loss_voxel
@@ -97,13 +98,15 @@ print("===> Datasets and Dataloders are set")
 # model.double()
 # model_save_path
 criterion = nn.HuberLoss()
-optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 if opt.continue_train:
     model = torch.load(model_save_path).to(device)
+    optimizer = optim.Adam(model.parameters(), lr=opt.lr)
+
     print("The model has been loaded from: ", model_save_path)
 
-    val_loss = np.asarray(train_a_epoch(dataloader_val, model, 0, device, opt.loss_batch_cnt))
+    val_loss = np.asarray(train_a_epoch(dataloader_val, model, 0, 
+                                        device, opt.loss_batch_cnt, bp=False))
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
     # np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
@@ -120,6 +123,7 @@ else:
     model.add_module("linear", nn.Linear(in_features = opt.block_size, 
                                          out_features = opt.block_size))
     model.to(device)
+    optimizer = optim.Adam(model.parameters(), lr=opt.lr)
     model.float()
     print("The model has created.")
     val_loss_best = 1e6
