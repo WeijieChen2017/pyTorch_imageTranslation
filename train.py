@@ -110,7 +110,7 @@ if opt.continue_train:
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
     # np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
-    print("===> Previous Val {} Complete Loss, Avg: {:.6}, Std: {:.6}".format(epoch+1, val_mean, val_std))
+    print("===> Previous Val Complete Loss, Avg: {:.6}, Std: {:.6}".format(val_mean, val_std))
     val_loss_best = val_mean
 
 else:
