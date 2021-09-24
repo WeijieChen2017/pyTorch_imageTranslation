@@ -42,9 +42,9 @@ def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt, bp=True):
 parser = argparse.ArgumentParser(description='Use 3d Unet to translate NAC PET to CT')
 parser.add_argument('--batch_size', type=int, default=16, help='training batch size')
 parser.add_argument('--batch_size_val', type=int, default=16, help='validation batch size')
-parser.add_argument('--loss_batch_cnt', type=int, default=64, help='loss display batch')
-parser.add_argument('--epochs', type=int, default=10, help='number of epochs to train for')
-parser.add_argument('--lr', type=float, default=1e-3, help='Learning Rate. Default=0.01')
+parser.add_argument('--loss_batch_cnt', type=int, default=53, help='loss display batch')
+parser.add_argument('--epochs', type=int, default=50, help='number of epochs to train for')
+parser.add_argument('--lr', type=float, default=1e-4, help='Learning Rate. Default=0.01')
 parser.add_argument('--data_worker', type=int, default=8, help='number of threads for data loader to use')
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cpu', action='store_true', help='use cuda?')
@@ -110,7 +110,7 @@ if opt.continue_train:
     val_mean = np.mean(val_loss)
     val_std = np.std(val_loss)
     # np.save("val_{}_{}.npy".format(epoch, opt.model_tag), val_loss)
-    print("===> Previous Val Complete Loss, Avg: {:.6}, Std: {:.6}".format(val_mean, val_std))
+    print("===> Previous Val Loss, Avg: {:.6}, Std: {:.6}".format(val_mean, val_std))
     val_loss_best = val_mean
 
 else:
