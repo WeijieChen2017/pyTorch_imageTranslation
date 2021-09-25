@@ -140,9 +140,6 @@ for package in [packageTest]: #packageVal, packageTrain,
         if not flag_test:
             dataX = dataX[:, :, dataX.shape[2]//2:]
             dataY = dataY[:, :, dataY.shape[2]//2:]
-        else:
-            dataX = dataX[:, :, dataX.shape[2]:]
-            dataY = dataY[:, :, dataY.shape[2]:]
         dataNormX = normX(dataX)
         dataNormY = normY(dataY)
 
