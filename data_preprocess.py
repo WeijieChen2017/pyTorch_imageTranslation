@@ -124,7 +124,7 @@ for package in [packageTest]: #packageVal, packageTrain,
     fileList = package[0]
     folderX = package[1]
     folderY = package[2]
-    flag_test = True if package[3] == "Test"
+    flag_test = package[3] == "Test"
     print("-"*25, package[3], "-"*25)
 
     # npy version
