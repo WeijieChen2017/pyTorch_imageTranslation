@@ -66,8 +66,8 @@ valRatio = 0.2
 testRatio = 0.1
 channelX = 1
 channelY = 1
-block_size = 80
-stride = 40
+block_size = 128
+stride = 64
 
 # create directory and search nifty files
 testFolderX = "./data_train/X128/test/"
@@ -84,9 +84,9 @@ testFolderY = "./data_train/Y128/test/"
 
 # shuffle and create train/val/test file list
 np.random.seed(813)
-testList = ['./data_train/NPR_SRC/NPR_011.nii.gz',
-            './data_train/NPR_SRC/NPR_063.nii.gz',
-            './data_train/NPR_SRC/NPR_143.nii.gz']
+testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
+            # './data_train/NPR_SRC/NPR_063.nii.gz',
+            # './data_train/NPR_SRC/NPR_143.nii.gz']
 folder_pred_cube = "./data_pred/cube/"
 folder_pred_nifty = "./data_pred/nifty/"
 
