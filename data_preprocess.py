@@ -119,11 +119,12 @@ packageVal = [valList, valFolderX, valFolderY, "Validation"]
 packageTest = [testList, testFolderX, testFolderY, "Test"]
 np.save("dataset_division.npy", [packageTrain, packageVal, packageTest])
 
-for package in [packageVal, packageTrain, packageTest]:
+for package in [packageTest]: #packageVal, packageTrain, 
 
     fileList = package[0]
     folderX = package[1]
     folderY = package[2]
+    flag_test = True if package[3] == "Test"
     print("-"*25, package[3], "-"*25)
 
     # npy version
@@ -136,8 +137,12 @@ for package in [packageVal, packageTrain, packageTest]:
         filenameY = os.path.basename(pathY)[3:6]
         dataX = nib.load(pathX).get_fdata()
         dataY = nib.load(pathY).get_fdata()
-        dataX = dataX[:, :, dataX.shape[2]//2:]
-        dataY = dataY[:, :, dataY.shape[2]//2:]
+        if not flag_test:
+            dataX = dataX[:, :, dataX.shape[2]//2:]
+            dataY = dataY[:, :, dataY.shape[2]//2:]
+        else:
+            dataX = dataX[:, :, dataX.shape[2]:]
+            dataY = dataY[:, :, dataY.shape[2]:]
         dataNormX = normX(dataX)
         dataNormY = normY(dataY)
 
@@ -161,7 +166,7 @@ for package in [packageVal, packageTrain, packageTest]:
                     
                     cutX = dataPadX[start_x:end_x, start_y:end_y, start_z:end_z].astype(np.float32)
                     cutY = dataPadY[start_x:end_x, start_y:end_y, start_z:end_z].astype(np.float32)
-                    if package[3] == "Test":
+                    if flag_test:
                         np.save(savenameX, cutX)
                         np.save(savenameY, cutY)
                         cube_cnt += 1
