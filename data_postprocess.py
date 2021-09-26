@@ -85,7 +85,7 @@ testFolderY = "./data_train/Y128/test/"
 
 # shuffle and create train/val/test file list
 np.random.seed(813)
-testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
+testList = ['./data_train/RSPET/RS_011.nii.gz']
             # './data_train/NPR_SRC/NPR_063.nii.gz',
             # './data_train/NPR_SRC/NPR_143.nii.gz']
 folder_pred_cube = "./data_pred/cube/"
@@ -114,6 +114,7 @@ for package in [packageTest]:
         dataY = fileY.get_fdata()
         dataNormX = normX(dataX)
         dataNormY = normY(dataY)
+        print("Input shape: ", dataNormX.shape, dataNormY.shape)
 
         listStart, dataPadX = create_index_3d(dataNormX, block_size, stride)
         listStart, dataPadY = create_index_3d(dataNormY, block_size, stride)
@@ -133,6 +134,7 @@ for package in [packageTest]:
                     data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
 
         data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
+
         data_dif = dataY - data_cut
         pred_file = nib.Nifti1Image(data_cut, fileX.affine, fileY.header)
         diff_file = nib.Nifti1Image(data_dif, fileX.affine, fileX.header)
