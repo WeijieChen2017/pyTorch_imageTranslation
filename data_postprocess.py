@@ -106,7 +106,7 @@ for package in [packageTest]:
     # npy version
     for pathX in fileList:
         pathY = pathX.replace("NPR", "CT")
-        filenameX = os.path.basename(pathX)[4:7]
+        filenameX = os.path.basename(pathX)[3:6]
         filenameY = os.path.basename(pathY)[3:6]
         fileX = nib.load(pathX)
         fileY = nib.load(pathY)
