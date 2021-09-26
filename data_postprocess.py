@@ -41,6 +41,8 @@ def remove_pad(data_pad, data_ori, block_size, stride):
         data_cut = data_pad[:, :, before_z:-after_z]
 
     print("Data_cut shape: ", data_cut.shape)
+    del data_pad
+    del data_ori
     return denormY(data_cut)
 
 def normX(data):
