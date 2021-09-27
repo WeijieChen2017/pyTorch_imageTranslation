@@ -1,5 +1,3 @@
-=(2, 2, 2, 2), num_res_units=2)
->>> print(model)
 UNet(
   (model): Sequential(
     (0): ResidualUnit(
@@ -29,7 +27,7 @@ UNet(
           )
         )
       )
-      (residual): Conv3d(1, 16, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+      (residual): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
     )
     (1): SkipConnection(
       (submodule): Sequential(
@@ -60,7 +58,7 @@ UNet(
               )
             )
           )
-          (residual): Conv3d(16, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+          (residual): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
         )
         (1): SkipConnection(
           (submodule): Sequential(
@@ -91,7 +89,7 @@ UNet(
                   )
                 )
               )
-              (residual): Conv3d(32, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+              (residual): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
             )
             (1): SkipConnection(
               (submodule): Sequential(
@@ -122,7 +120,7 @@ UNet(
                       )
                     )
                   )
-                  (residual): Conv3d(64, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+                  (residual): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
                 )
                 (1): SkipConnection(
                   (submodule): ResidualUnit(
@@ -152,7 +150,7 @@ UNet(
                         )
                       )
                     )
-                    (residual): Conv3d(128, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+                    (residual): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
                   )
                 )
                 (2): Sequential(
@@ -287,4 +285,3 @@ UNet(
     )
   )
 )
->>> 
