@@ -231,7 +231,7 @@ class UNet(nn.Module):
                 bias=self.bias,
                 last_conv_only=is_top,
             )
-            conv = nn.Sequential(ru, conv)
+            conv = nn.Sequential(conv, ru)
 
         up = Convolution(
             self.dimensions,
