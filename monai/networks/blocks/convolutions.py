@@ -375,9 +375,11 @@ class ResidualUnit(nn.Module):
                 rkernel_size = 1
                 rpadding = 0
 
-            conv_type = Conv[Conv.CONV, self.dimensions]
+            # conv_type = Conv[Conv.CONV, self.dimensions]
             # self.residual = conv_type(in_channels, out_channels, rkernel_size, strides, rpadding, bias=bias)
             self.residual = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
+            if out_channels == 256:
+                self.residual = nn.Identity()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.first_conv(x)
