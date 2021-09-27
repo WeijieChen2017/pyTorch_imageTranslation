@@ -236,7 +236,7 @@ class UNet(nn.Module):
                 bias=self.bias,
                 last_conv_only=is_top,
             )
-            conv.add("ru", ru)
+            conv.add_module("ru", ru)
 
         up = nn.Upsample(scale_factor=2.0, mode='trilinear', align_corners=True)
 
