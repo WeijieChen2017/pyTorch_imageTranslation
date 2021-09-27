@@ -131,14 +131,14 @@ class UNet(nn.Module):
 
             subblock: nn.Module
             print("channels: ", channels)
+            print("c:", c)
             if len(channels) > 1:
-                print("c:", c)
                 subblock = _create_block(c, c, channels[1:], strides[1:], False)  # continue recursion down
                 upc = c * 2
             else:
                 # the next layer is the bottom so stop recursion, create the bottom layer as the sublock for this layer
-                subblock = self._get_bottom_layer(c, channels[1])
-                upc = c + channels[1]
+                subblock = self._get_bottom_layer(c, channels[0])
+                upc = c + channels[0]
 
             down = self._get_down_layer(inc, c, s, is_top)  # create layer in downsampling path
             up = self._get_up_layer(upc, outc, s, is_top)  # create layer in upsampling path
