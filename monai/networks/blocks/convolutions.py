@@ -320,6 +320,7 @@ class ResidualUnit(nn.Module):
                 conv_only=conv_only,
                 padding=padding,
             )
+            self.conv.add_module(f"unit{su:d}", unit)
 
         for su in range(subunits):
             conv_only = last_conv_only and su == (subunits - 1)
@@ -340,7 +341,7 @@ class ResidualUnit(nn.Module):
                 padding=padding,
             )
 
-            self.conv.add_module(f"unit{su:d}", unit)
+            self.conv.add_module(f"unit{su:d}", unit+subunits)
             schannels = out_channels
             sstrides = 1
             # after first loop set channels and strides to what they should be for subsequent units
