@@ -130,21 +130,21 @@ class UNet(nn.Module):
             s = strides[0]
 
             subblock: nn.Module
-            print("channels: ", channels)
-            print("c:", c)
+            # print("channels: ", channels)
+            # print("c:", c)
             if len(channels) > 1:
                 subblock = _create_block(c, c, channels[1:], strides[1:], False)  # continue recursion down
                 upc = c * 2
             else:
                 # the next layer is the bottom so stop recursion, create the bottom layer as the sublock for this layer
-                print("Bott:", c, channels[0])
+                # print("Bott:", c, channels[0])
                 subblock = self._get_bottom_layer(c, channels[0])
                 upc = c + channels[0]
 
             down = self._get_down_layer(inc, c, s, is_top)  # create layer in downsampling path
             up = self._get_up_layer(upc, outc, s, is_top)  # create layer in upsampling path
-            print("down: ", inc, c)
-            print("up: ", upc, outc)
+            # print("down: ", inc, c)
+            # print("up: ", upc, outc)
             return nn.Sequential(down, SkipConnection(subblock), up)
 
         self.model = _create_block(in_channels, out_channels, self.channels, self.strides, True)
@@ -193,7 +193,7 @@ class UNet(nn.Module):
             out_channels: number of output channels.
         """
 
-        print("bottom: ", in_channels, out_channels)
+        # print("bottom: ", in_channels, out_channels)
 
         return self._get_down_layer(in_channels, out_channels, 1, False)
 
@@ -206,7 +206,7 @@ class UNet(nn.Module):
             is_top: True if this is the top block.
         """
         # conv: Union[Convolution, nn.Sequential]
-        print("In: ", in_channels, " Out: ", out_channels)
+        # print("In: ", in_channels, " Out: ", out_channels)
         conv = nn.Sequential()
         conv.add_module("conv", Convolution(
                                     self.dimensions,

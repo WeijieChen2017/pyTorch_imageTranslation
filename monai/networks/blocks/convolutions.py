@@ -369,11 +369,11 @@ class ResidualUnit(nn.Module):
         # cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
         # print(x.size(), res.size(), cx.size())
         # return cx + res  # add the residual to the output
-        print(x.size())
+        # print(x.size())
         x = self.first_conv(x)
-        print(x.size())
+        # print(x.size())
         x = x + self.conv(x)
-        print(x.size())
+        # print(x.size())
         x = self.down(x)
-        print(x.size())
+        # print(x.size())
         return x
