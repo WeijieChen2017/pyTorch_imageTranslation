@@ -148,7 +148,12 @@ class Convolution(nn.Sequential):
             #     dilation=dilation,
             # )
         else:
-            conv = conv_type(
+            if strides == 2:
+                # down = nn.Upsample(scale_factor=0.5, mode='bilinear', align_corners=True)
+                down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
+                self.add_module("down", down)
+            else:
+                conv = conv_type(
                 in_channels,
                 out_channels,
                 kernel_size=kernel_size,
@@ -156,9 +161,20 @@ class Convolution(nn.Sequential):
                 padding=padding,
                 dilation=dilation,
                 groups=groups,
-                bias=bias,
-            )
-            self.add_module("conv", conv)
+                bias=bias)
+                self.add_module("conv", conv)
+
+            # conv = conv_type(
+            #     in_channels,
+            #     out_channels,
+            #     kernel_size=kernel_size,
+            #     stride=strides,
+            #     padding=padding,
+            #     dilation=dilation,
+            #     groups=groups,
+            #     bias=bias,
+            # )
+            
         # self.add_module("conv", conv)
 
         if not conv_only:
