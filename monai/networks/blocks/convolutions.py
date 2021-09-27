@@ -289,7 +289,7 @@ class ResidualUnit(nn.Module):
         self.dimensions = spatial_dims if dimensions is None else dimensions
         self.in_channels = in_channels
         self.out_channels = out_channels
-        self.conv = nn.Sequential()
+        
         self.residual = nn.Identity()
         if not padding:
             padding = same_padding(kernel_size, dilation)
@@ -315,6 +315,8 @@ class ResidualUnit(nn.Module):
                 padding=padding,
             )
         self.first_conv = unit
+
+        self.conv = nn.Sequential()
 
         for su in range(subunits):
             unit = Convolution(

@@ -141,7 +141,8 @@ class UNet(nn.Module):
 
             down = self._get_down_layer(inc, c, s, is_top)  # create layer in downsampling path
             up = self._get_up_layer(upc, outc, s, is_top)  # create layer in upsampling path
-
+            print("down: ", inc, c)
+            print("up: ", upc, outc)
             return nn.Sequential(down, SkipConnection(subblock), up)
 
         self.model = _create_block(in_channels, out_channels, self.channels, self.strides, True)
