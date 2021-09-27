@@ -341,7 +341,7 @@ class ResidualUnit(nn.Module):
                 padding=padding,
             )
 
-            self.conv.add_module(f"unit{su:d}", unit+subunits)
+            self.conv.add_module(f"unit{su+subunits:d}", unit)
             schannels = out_channels
             sstrides = 1
             # after first loop set channels and strides to what they should be for subsequent units
