@@ -237,19 +237,7 @@ class UNet(nn.Module):
             )
             conv = nn.Sequential(conv, ru)
 
-        up = Convolution(
-            self.dimensions,
-            out_channels,
-            out_channels,
-            strides=strides,
-            kernel_size=self.up_kernel_size,
-            act=self.act,
-            norm=self.norm,
-            dropout=self.dropout,
-            bias=self.bias,
-            conv_only=is_top and self.num_res_units == 0,
-            is_transposed=True,
-        )
+        up = nn.Upsample(scale_factor=2, mode='trilinear', align_corners=True)
 
         conv = nn.Sequential(conv, up)
 

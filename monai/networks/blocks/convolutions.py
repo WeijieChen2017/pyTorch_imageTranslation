@@ -131,24 +131,7 @@ class Convolution(nn.Sequential):
         conv_type = Conv[Conv.CONVTRANS if is_transposed else Conv.CONV, self.dimensions]
 
         conv: nn.Module
-        if is_transposed:
-            up = nn.Upsample(scale_factor=2, mode='trilinear', align_corners=True)
-            self.add_module("up", up)
-            # if output_padding is None:
-            #     output_padding = stride_minus_kernel_padding(1, strides)
-            # conv = conv_type(
-            #     in_channels,
-            #     out_channels,
-            #     kernel_size=kernel_size,
-            #     stride=strides,
-            #     padding=padding,
-            #     output_padding=output_padding,
-            #     groups=groups,
-            #     bias=bias,
-            #     dilation=dilation,
-            # )
-        else:
-            conv = conv_type(
+        conv = conv_type(
                 in_channels,
                 out_channels,
                 kernel_size=kernel_size,
@@ -158,7 +141,7 @@ class Convolution(nn.Sequential):
                 groups=groups,
                 bias=bias
             )
-            self.add_module("conv", conv)
+        self.add_module("conv", conv)
 
             # conv = conv_type(
             #     in_channels,
@@ -173,19 +156,19 @@ class Convolution(nn.Sequential):
             
         # self.add_module("conv", conv)
 
-            if not conv_only:
-                self.add_module(
-                    "adn",
-                    ADN(
-                        ordering=adn_ordering,
-                        in_channels=out_channels,
-                        act=act,
-                        norm=norm,
-                        norm_dim=self.dimensions,
-                        dropout=dropout,
-                        dropout_dim=dropout_dim,
-                    ),
-                )
+        if not conv_only:
+            self.add_module(
+                "adn",
+                ADN(
+                    ordering=adn_ordering,
+                    in_channels=out_channels,
+                    act=act,
+                    norm=norm,
+                    norm_dim=self.dimensions,
+                    dropout=dropout,
+                    dropout_dim=dropout_dim,
+                ),
+            )
 
 
 class ResidualUnit(nn.Module):
