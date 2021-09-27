@@ -202,7 +202,7 @@ class UNet(nn.Module):
             is_top: True if this is the top block.
         """
         conv: Union[Convolution, nn.Sequential]
-
+        print("In: ", in_channels, " Out: ", out_channels)
         conv = Convolution(
             self.dimensions,
             in_channels,
