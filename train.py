@@ -11,6 +11,8 @@ from data import DatasetFromFolder
 
 from monai.networks.nets import UNet
 
+import sys
+
 def train_a_epoch(data_loader, model, epoch, device, loss_batch_cnt, bp=True):
 
     epoch_loss = np.zeros((len(data_loader)))
@@ -131,6 +133,14 @@ else:
 # criterion = nn.MSELoss()
 # input = torch.randn(4, 1, opt.block_size, opt.block_size, opt.block_size).double().to(device)
 # model.summary(input)
+
+# save model architecture
+stdoutOrigin=sys.stdout 
+sys.stdout = open(opt.model_tag+"_arch.txt", "w")
+print(model)
+sys.stdout.close()
+sys.stdout=stdoutOrigin
+
 print("===> The network, loss, optimizer are set")
 
 # start the training
