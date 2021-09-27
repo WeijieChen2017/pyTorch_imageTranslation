@@ -301,8 +301,27 @@ class ResidualUnit(nn.Module):
         sstrides = strides
         subunits = max(1, subunits)
 
-        # for su in range(subunits):
-        for su in range(subunits+1):
+        # add not regular conv before down-sampling
+        for su in range(subunits):
+            conv_only = last_conv_only and su == (subunits - 1)
+            unit = Convolution(
+                self.dimensions,
+                schannels,
+                schannels,
+                strides=1,
+                kernel_size=kernel_size,
+                adn_ordering=adn_ordering,
+                act=act,
+                norm=norm,
+                dropout=dropout,
+                dropout_dim=dropout_dim,
+                dilation=dilation,
+                bias=bias,
+                conv_only=conv_only,
+                padding=padding,
+            )
+
+        for su in range(subunits):
             conv_only = last_conv_only and su == (subunits - 1)
             unit = Convolution(
                 self.dimensions,
@@ -322,32 +341,9 @@ class ResidualUnit(nn.Module):
             )
 
             self.conv.add_module(f"unit{su:d}", unit)
-            # schannels = out_channels
-            # sstrides = 1
+            schannels = out_channels
+            sstrides = 1
             # after first loop set channels and strides to what they should be for subsequent units
-        
-        # only the last block up/down-sampling
-        schannels = out_channels
-        sstrides = 1
-
-        conv_only = last_conv_only and su == (subunits - 1)
-        unit = Convolution(
-            self.dimensions,
-            schannels,
-            out_channels,
-            strides=sstrides,
-            kernel_size=kernel_size,
-            adn_ordering=adn_ordering,
-            act=act,
-            norm=norm,
-            dropout=dropout,
-            dropout_dim=dropout_dim,
-            dilation=dilation,
-            bias=bias,
-            conv_only=conv_only,
-            padding=padding,
-        )
-
 
         # apply convolution to input to change number of output channels and size to match that coming from self.conv
         if np.prod(strides) != 1 or in_channels != out_channels:
