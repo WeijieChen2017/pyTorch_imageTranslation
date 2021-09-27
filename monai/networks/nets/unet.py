@@ -205,20 +205,21 @@ class UNet(nn.Module):
             strides: convolution stride.
             is_top: True if this is the top block.
         """
-        conv: Union[Convolution, nn.Sequential]
+        # conv: Union[Convolution, nn.Sequential]
         print("In: ", in_channels, " Out: ", out_channels)
-
-        conv = Convolution(
-            self.dimensions,
-            in_channels,
-            out_channels,
-            strides=strides,
-            kernel_size=self.up_kernel_size,
-            act=self.act,
-            norm=self.norm,
-            dropout=self.dropout,
-            bias=self.bias,
-            conv_only=is_top and self.num_res_units == 0,
+        conv = nn.Sequential()
+        conv.add_module("conv", Convolution(
+                                    self.dimensions,
+                                    in_channels,
+                                    out_channels,
+                                    strides=strides,
+                                    kernel_size=self.up_kernel_size,
+                                    act=self.act,
+                                    norm=self.norm,
+                                    dropout=self.dropout,
+                                    bias=self.bias,
+                                    conv_only=is_top and self.num_res_units == 0,
+                                )
         )
 
         if self.num_res_units > 0:
@@ -235,9 +236,9 @@ class UNet(nn.Module):
                 bias=self.bias,
                 last_conv_only=is_top,
             )
-            conv = nn.Sequential(conv, ru)
+            conv.add("ru", ru)
 
-        up = nn.Upsample(scale_factor=2, mode='trilinear', align_corners=True)
+        up = nn.Upsample(scale_factor=2.0, mode='trilinear', align_corners=True)
 
         conv.add_module("up", up)
 
