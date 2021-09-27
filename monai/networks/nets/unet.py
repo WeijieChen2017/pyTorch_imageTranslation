@@ -131,7 +131,8 @@ class UNet(nn.Module):
 
             subblock: nn.Module
 
-            if len(channels) > 2:
+            if len(channels) > 1:
+                print("c:", c)
                 subblock = _create_block(c, c, channels[1:], strides[1:], False)  # continue recursion down
                 upc = c * 2
             else:
