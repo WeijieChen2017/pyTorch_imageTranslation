@@ -203,9 +203,25 @@ class UNet(nn.Module):
         """
         conv: Union[Convolution, nn.Sequential]
         print("In: ", in_channels, " Out: ", out_channels)
+
+        if self.num_res_units > 0:
+            ru = ResidualUnit(
+                self.dimensions,
+                in_channels,
+                out_channels,
+                strides=1,
+                kernel_size=self.kernel_size,
+                subunits=1,
+                act=self.act,
+                norm=self.norm,
+                dropout=self.dropout,
+                bias=self.bias,
+                last_conv_only=is_top,
+            )
+
         conv = Convolution(
             self.dimensions,
-            in_channels,
+            out_channels,
             out_channels,
             strides=strides,
             kernel_size=self.up_kernel_size,
@@ -217,21 +233,7 @@ class UNet(nn.Module):
             is_transposed=True,
         )
 
-        if self.num_res_units > 0:
-            ru = ResidualUnit(
-                self.dimensions,
-                out_channels,
-                out_channels,
-                strides=1,
-                kernel_size=self.kernel_size,
-                subunits=1,
-                act=self.act,
-                norm=self.norm,
-                dropout=self.dropout,
-                bias=self.bias,
-                last_conv_only=is_top,
-            )
-            conv = nn.Sequential(conv, ru)
+        conv = nn.Sequential(ru, conv)
 
         return conv
 
