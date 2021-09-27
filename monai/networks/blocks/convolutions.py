@@ -303,7 +303,6 @@ class ResidualUnit(nn.Module):
 
         # add not regular conv before down-sampling
         for su in range(subunits):
-            conv_only = last_conv_only and su == (subunits - 1)
             unit = Convolution(
                 self.dimensions,
                 schannels,
@@ -317,33 +316,53 @@ class ResidualUnit(nn.Module):
                 dropout_dim=dropout_dim,
                 dilation=dilation,
                 bias=bias,
-                conv_only=conv_only,
+                conv_only=False,
                 padding=padding,
             )
             self.conv.add_module(f"unit{su:d}", unit)
 
-        for su in range(subunits):
-            conv_only = last_conv_only and su == (subunits - 1)
-            unit = Convolution(
-                self.dimensions,
-                schannels,
-                out_channels,
-                strides=sstrides,
-                kernel_size=kernel_size,
-                adn_ordering=adn_ordering,
-                act=act,
-                norm=norm,
-                dropout=dropout,
-                dropout_dim=dropout_dim,
-                dilation=dilation,
-                bias=bias,
-                conv_only=conv_only,
-                padding=padding,
-            )
+        unit = Convolution(
+            self.dimensions,
+            schannels,
+            out_channels,
+            strides=sstrides,
+            kernel_size=kernel_size,
+            adn_ordering=adn_ordering,
+            act=act,
+            norm=norm,
+            dropout=dropout,
+            dropout_dim=dropout_dim,
+            dilation=dilation,
+            bias=bias,
+            conv_only=False,
+            padding=padding,
+        )
 
-            self.conv.add_module(f"unit{su+subunits:d}", unit)
-            schannels = out_channels
-            sstrides = 1
+        self.conv.add_module(f"unit{su+1:d}", unit)
+            
+
+        # for su in range(subunits):
+        #     conv_only = last_conv_only and su == (subunits - 1)
+        #     unit = Convolution(
+        #         self.dimensions,
+        #         schannels,
+        #         out_channels,
+        #         strides=sstrides,
+        #         kernel_size=kernel_size,
+        #         adn_ordering=adn_ordering,
+        #         act=act,
+        #         norm=norm,
+        #         dropout=dropout,
+        #         dropout_dim=dropout_dim,
+        #         dilation=dilation,
+        #         bias=bias,
+        #         conv_only=conv_only,
+        #         padding=padding,
+        #     )
+
+        #     self.conv.add_module(f"unit{su+subunits:d}", unit)
+        #     schannels = out_channels
+        #     sstrides = 1
             # after first loop set channels and strides to what they should be for subsequent units
 
         # apply convolution to input to change number of output channels and size to match that coming from self.conv
