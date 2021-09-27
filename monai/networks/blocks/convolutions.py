@@ -132,7 +132,7 @@ class Convolution(nn.Sequential):
 
         conv: nn.Module
         if is_transposed:
-            up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+            up = nn.Upsample(scale_factor=2, mode='trilinear', align_corners=True)
             self.add_module("up", up)
             # if output_padding is None:
             #     output_padding = stride_minus_kernel_padding(1, strides)
