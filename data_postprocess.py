@@ -118,25 +118,25 @@ for package in [packageTest]:
         dataNormY = normY(dataY)
         print("Input shape: ", dataNormX.shape, dataNormY.shape)
 
-        # listStart, dataPadX = create_index_3d(dataNormX, block_size, stride)
-        # listStart, dataPadY = create_index_3d(dataNormY, block_size, stride)
-        # data_pred = np.zeros(dataPadX.shape)
+        listStart, dataPadX = create_index_3d(dataNormX, block_size, stride)
+        listStart, dataPadY = create_index_3d(dataNormY, block_size, stride)
+        data_pred = np.zeros(dataPadX.shape)
 
-        # listCordX = listStart[0]
-        # listCordY = listStart[1]
-        # listCordZ = listStart[2]
+        listCordX = listStart[0]
+        listCordY = listStart[1]
+        listCordZ = listStart[2]
 
-        # for start_x, end_x in listCordX:
-        #     for start_y, end_y in listCordY:
-        #         for start_z, end_z in listCordZ:
-        #             savename = folder_pred_cube + "pred_" + filenameX 
-        #             savename += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
-        #             # print(savename)
-        #             cube_pred = np.load(savename)
-        #             data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
+        for start_x, end_x in listCordX:
+            for start_y, end_y in listCordY:
+                for start_z, end_z in listCordZ:
+                    savename = folder_pred_cube + "pred_" + filenameX 
+                    savename += "_{0:03d}_{1:03d}_{2:03d}".format(start_x, start_y, start_z) + ".npy"
+                    # print(savename)
+                    cube_pred = np.load(savename)
+                    data_pred[start_x:end_x, start_y:end_y, start_z:end_z] = cube_pred
 
-        # data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
-        data_cut = denormY(np.load("data_cut.npy"))
+        data_cut = remove_pad(data_pred, dataNormX, block_size, stride)
+        # data_cut = denormY(np.load("data_cut.npy"))
 
         data_dif = dataY - data_cut
         pred_file = nib.Nifti1Image(data_cut, fileX.affine, fileY.header)
