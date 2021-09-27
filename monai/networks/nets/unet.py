@@ -212,7 +212,7 @@ class UNet(nn.Module):
                                     self.dimensions,
                                     in_channels,
                                     out_channels,
-                                    strides=strides,
+                                    strides=1,
                                     kernel_size=self.up_kernel_size,
                                     act=self.act,
                                     norm=self.norm,
