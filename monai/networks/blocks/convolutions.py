@@ -148,12 +148,7 @@ class Convolution(nn.Sequential):
             #     dilation=dilation,
             # )
         else:
-            if strides == 2:
-                # down = nn.Upsample(scale_factor=0.5, mode='bilinear', align_corners=True)
-                down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
-                self.add_module("down", down)
-            else:
-                conv = conv_type(
+            conv = conv_type(
                 in_channels,
                 out_channels,
                 kernel_size=kernel_size,
@@ -161,8 +156,9 @@ class Convolution(nn.Sequential):
                 padding=padding,
                 dilation=dilation,
                 groups=groups,
-                bias=bias)
-                self.add_module("conv", conv)
+                bias=bias
+            )
+            self.add_module("conv", conv)
 
             # conv = conv_type(
             #     in_channels,
@@ -306,7 +302,7 @@ class ResidualUnit(nn.Module):
             unit = Convolution(
                 self.dimensions,
                 schannels,
-                schannels,
+                out_channels,
                 strides=1,
                 kernel_size=kernel_size,
                 adn_ordering=adn_ordering,
@@ -320,26 +316,12 @@ class ResidualUnit(nn.Module):
                 padding=padding,
             )
             self.conv.add_module(f"unit{su:d}", unit)
+            schannels = out_channels
 
-        unit = Convolution(
-            self.dimensions,
-            schannels,
-            out_channels,
-            strides=sstrides,
-            kernel_size=kernel_size,
-            adn_ordering=adn_ordering,
-            act=act,
-            norm=norm,
-            dropout=dropout,
-            dropout_dim=dropout_dim,
-            dilation=dilation,
-            bias=bias,
-            conv_only=False,
-            padding=padding,
-        )
-
-        self.conv.add_module(f"unit{su+1:d}", unit)
-            
+        if sstrides == 2:
+            down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
+            self.conv.add_module("down", down)
+                
 
         # for su in range(subunits):
         #     conv_only = last_conv_only and su == (subunits - 1)
