@@ -29,6 +29,6 @@ for file_path in file_list:
     # cmd_8 = "mv "+tag+idx_str+".nii ./PET_2x/"
     # cmd_6 = "mv y"+idx_str+".nii ../inv_RSZP"
 
-# 3dresample -dxyz 1.172 1.172 2.78 -prefix test -inset BraTS20_Training_001_t1_inv.nii
+# 3dresample -dxyz 1.367 1.367 3.27 -prefix pred_011_RS.nii.gz -input pred_011.nii.gz
 # 3dZeropad -I 16 -S 17 -A 25 -P 26 -L 25 -R 26 Z001+orig -prefix 123
 # 3dAFNItoNIFTI -prefix test test+orig
