@@ -340,8 +340,7 @@ class ResidualUnit(nn.Module):
         if sstrides == 2 and out_channels != 256:
             down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
             self.down = down
-
-        if out_channels == 256:
+        else:
             self.down = nn.Identity()
                 
 
