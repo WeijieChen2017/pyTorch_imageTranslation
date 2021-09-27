@@ -339,7 +339,10 @@ class ResidualUnit(nn.Module):
 
         if sstrides == 2 and out_channels != 256:
             down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
-            self.conv.add_module("down", down)
+            self.down = down
+
+        if out_channels == 256:
+            self.down = nn.Identity()
                 
 
         # for su in range(subunits):
@@ -367,23 +370,24 @@ class ResidualUnit(nn.Module):
             # after first loop set channels and strides to what they should be for subsequent units
 
         # apply convolution to input to change number of output channels and size to match that coming from self.conv
-        if np.prod(strides) != 1 or in_channels != out_channels:
-            rkernel_size = kernel_size
-            rpadding = padding
+        # if np.prod(strides) != 1 or in_channels != out_channels:
+        #     rkernel_size = kernel_size
+        #     rpadding = padding
 
-            if np.prod(strides) == 1:  # if only adapting number of channels a 1x1 kernel is used with no padding
-                rkernel_size = 1
-                rpadding = 0
+        #     if np.prod(strides) == 1:  # if only adapting number of channels a 1x1 kernel is used with no padding
+        #         rkernel_size = 1
+        #         rpadding = 0
 
             # conv_type = Conv[Conv.CONV, self.dimensions]
             # self.residual = conv_type(in_channels, out_channels, rkernel_size, strides, rpadding, bias=bias)
-            self.residual = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
-            if out_channels == 256:
-                self.residual = nn.Identity()
+        # self.residual = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x = self.first_conv(x)
+        # res: torch.Tensor = self.residual(x)  # create the additive residual from x
+        # cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
+        # print(x.size(), res.size(), cx.size())
+        # return cx + res  # add the residual to the output
         x = self.first_conv(x)
-        res: torch.Tensor = self.residual(x)  # create the additive residual from x
-        cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
-        print(x.size(), res.size(), cx.size())
-        return cx + res  # add the residual to the output
+        x = x + self.conv(x)
+        return self.down(x)
