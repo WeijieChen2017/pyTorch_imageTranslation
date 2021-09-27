@@ -383,5 +383,5 @@ class ResidualUnit(nn.Module):
         x = self.first_conv(x)
         res: torch.Tensor = self.residual(x)  # create the additive residual from x
         cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
-        print(res.size(), cx.size())
+        print(x.size(), res.size(), cx.size())
         return cx + res  # add the residual to the output

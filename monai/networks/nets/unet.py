@@ -137,6 +137,7 @@ class UNet(nn.Module):
                 upc = c * 2
             else:
                 # the next layer is the bottom so stop recursion, create the bottom layer as the sublock for this layer
+                print("Bott:", c, channels[0])
                 subblock = self._get_bottom_layer(c, channels[0])
                 upc = c + channels[0]
 
@@ -191,6 +192,9 @@ class UNet(nn.Module):
             in_channels: number of input channels.
             out_channels: number of output channels.
         """
+
+        print("bottom: ", in_channels, out_channels)
+
         return self._get_down_layer(in_channels, out_channels, 1, False)
 
     def _get_up_layer(self, in_channels: int, out_channels: int, strides: int, is_top: bool) -> nn.Module:
