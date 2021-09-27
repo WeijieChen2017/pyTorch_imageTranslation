@@ -375,7 +375,8 @@ class ResidualUnit(nn.Module):
                 rpadding = 0
 
             conv_type = Conv[Conv.CONV, self.dimensions]
-            self.residual = conv_type(in_channels, out_channels, rkernel_size, strides, rpadding, bias=bias)
+            # self.residual = conv_type(in_channels, out_channels, rkernel_size, strides, rpadding, bias=bias)
+            self.residual = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         res: torch.Tensor = self.residual(x)  # create the additive residual from x
