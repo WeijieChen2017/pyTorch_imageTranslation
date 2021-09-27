@@ -125,6 +125,8 @@ class SkipConnection(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         y = self.submodule(x)
 
+        print("==>[X, Y]: [", x.size(), ", ", y.size(), "]")
+
         if self.mode == "cat":
             return torch.cat([x, y], dim=self.dim)
         if self.mode == "add":
