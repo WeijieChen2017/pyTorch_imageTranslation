@@ -321,8 +321,7 @@ class ResidualUnit(nn.Module):
             self.conv.add_module(f"unit{su:d}", unit)
 
         if sstrides == 2 and out_channels != 256:
-            down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
-            self.down = down
+            self.down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
         else:
             self.down = nn.Identity()
                 
@@ -370,6 +369,11 @@ class ResidualUnit(nn.Module):
         # cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
         # print(x.size(), res.size(), cx.size())
         # return cx + res  # add the residual to the output
+        print(x.size())
         x = self.first_conv(x)
+        print(x.size())
         x = x + self.conv(x)
-        return self.down(x)
+        print(x.size())
+        x = self.down(x)
+        print(x.size())
+        return x
