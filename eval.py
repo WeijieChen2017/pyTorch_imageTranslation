@@ -18,7 +18,7 @@ parser.add_argument('--data_worker', type=int, default=4, help='number of thread
 parser.add_argument('--seed', type=int, default=813, help='random seed to use.')
 parser.add_argument('--cuda', action='store_true', help='use cuda?')
 parser.add_argument('--block_size', type=int, default=128, help='the block size of each input')
-parser.add_argument('--model_save_path', type=str, default='model_best_XYZ111_Huber.pth')
+parser.add_argument('--model_save_path', type=str, default='model_best_XYZ111_Huber_modelv2.pth')
 
 opt = parser.parse_args()
 print(opt)
