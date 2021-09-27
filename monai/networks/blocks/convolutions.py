@@ -298,10 +298,28 @@ class ResidualUnit(nn.Module):
         subunits = max(1, subunits)
 
         # add not regular conv before down-sampling
+        unit = Convolution(
+                self.dimensions,
+                in_channels,
+                out_channels,
+                strides=1,
+                kernel_size=kernel_size,
+                adn_ordering=adn_ordering,
+                act=act,
+                norm=norm,
+                dropout=dropout,
+                dropout_dim=dropout_dim,
+                dilation=dilation,
+                bias=bias,
+                conv_only=False,
+                padding=padding,
+            )
+        self.first_conv = unit
+
         for su in range(subunits):
             unit = Convolution(
                 self.dimensions,
-                schannels,
+                out_channels,
                 out_channels,
                 strides=1,
                 kernel_size=kernel_size,
@@ -316,7 +334,6 @@ class ResidualUnit(nn.Module):
                 padding=padding,
             )
             self.conv.add_module(f"unit{su:d}", unit)
-            schannels = out_channels
 
         if sstrides == 2:
             down = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
@@ -361,6 +378,7 @@ class ResidualUnit(nn.Module):
             self.residual = nn.MaxPool3d(kernel_size=2, stride=2, padding=0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.first_conv(x)
         res: torch.Tensor = self.residual(x)  # create the additive residual from x
         cx: torch.Tensor = self.conv(x)  # apply x to sequence of operations
         return cx + res  # add the residual to the output
