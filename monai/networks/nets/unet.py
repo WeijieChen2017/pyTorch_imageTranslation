@@ -239,7 +239,7 @@ class UNet(nn.Module):
 
         up = nn.Upsample(scale_factor=2, mode='trilinear', align_corners=True)
 
-        conv = nn.Sequential(conv, up)
+        conv.add_module(up)
 
         return conv
 
