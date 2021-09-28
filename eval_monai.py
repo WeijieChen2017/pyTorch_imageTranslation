@@ -8,8 +8,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from model import Net
-from data import DatasetFromFolder
+import monai
 
 def normX(data):
     data[data<0] = 0
