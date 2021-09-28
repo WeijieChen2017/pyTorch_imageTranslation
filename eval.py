@@ -74,7 +74,7 @@ for iteration, batch in enumerate(dataloader_test, 0):
         loss_mean = np.mean(loss_batch)
         loss_std = np.std(loss_batch)
         print("===> Eval({}/{}): ".format(iteration + 1, n_samples), end='')
-        print("Loss mean: {:.6f} Loss std: {:.6f}".format(loss_mean, loss_std))
+        print("Loss mean: {:.6} Loss std: {:.6}".format(loss_mean, loss_std))
 
 print("The eval loss mean: ", np.mean(epoch_loss), " std: ", np.std(epoch_loss))
 np.save("eval_loss.npy", epoch_loss)
