@@ -67,7 +67,7 @@ model.eval()
 print("===> The model {} are loaded.".format(opt.model_save_path))
 
 pred = monai.inferers.sliding_window_inference(
-        inputs=inputX.to(device), #NCHW[D]
+        inputs=torch.from_numpy(inputX).to(device), #NCHW[D]
         roi_size=opt.block_size, 
         sw_batch_size=opt.batch_size, 
         predictor=model, 
