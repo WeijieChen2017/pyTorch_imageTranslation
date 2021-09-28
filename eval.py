@@ -67,10 +67,10 @@ for iteration, batch in enumerate(dataloader_test, 0):
     np.save(sample_path, np.squeeze(pred.detach().numpy()))
     loss = criterion(pred, batch_y).item() / opt.block_size ** 3
     
-    loss_batch[iteration % loss_batch_cnt] = loss
+    loss_batch[iteration % opt.loss_batch_cnt] = loss
     epoch_loss[iteration] = loss
 
-    if iteration % loss_batch_cnt == loss_batch_cnt - 1:
+    if iteration % opt.loss_batch_cnt == opt.loss_batch_cnt - 1:
         loss_mean = np.mean(loss_batch)
         loss_std = np.std(loss_batch)
         print("===> Eval({}/{}): ".format(iteration + 1, n_samples), end='')
