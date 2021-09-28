@@ -32,6 +32,8 @@ block_size = 128
 stride = 64
 
 testList = ['./data_train/X128/test/*.npy']
+testList = glob.glob(testList)
+testList.sort()
 folder_pred_cube = "./data_pred/cube/"
 
 print('-'*50)
@@ -47,7 +49,6 @@ for pathX in testList:
     dataNormX = normX(dataX)
     dataNormY = normY(dataY)
 
-    
     nib.save(pred_file, pred_name)
     nib.save(diff_file, diff_name)
 
