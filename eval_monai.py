@@ -62,12 +62,12 @@ print("===> Datasets and Dataloders are set")
 
 print("Model name: ", opt.model_save_path)
 criterion = nn.HuberLoss()
-model = torch.load(opt.model_save_path).to(device)
+model = torch.load(opt.model_save_path).float().to(device)
 model.eval()
 print("===> The model {} are loaded.".format(opt.model_save_path))
 
 pred = monai.inferers.sliding_window_inference(
-        inputs=torch.from_numpy(inputX).to(device), #NCHW[D]
+        inputs=torch.from_numpy(inputX).float().to(device), #NCHW[D]
         roi_size=opt.block_size, 
         sw_batch_size=opt.batch_size, 
         predictor=model, 
@@ -77,7 +77,7 @@ pred = monai.inferers.sliding_window_inference(
         padding_mode=monai.utils.PytorchPadMode.CONSTANT, 
         cval=0.0, 
         sw_device=None, 
-        device=None)
+        device=None).numpy()
 
 print("The loss is ", criterion(pred, normY(dataY)).item())
 
