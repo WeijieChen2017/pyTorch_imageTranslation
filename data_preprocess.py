@@ -50,7 +50,7 @@ testRatio = 0.1
 channelX = 1
 channelY = 1
 block_size = 128
-stride = 64
+stride = 32
 
 # create directory and search nifty files
 trainFolderX = "./data_train/X"+str(block_size)+"/train/"
@@ -90,12 +90,14 @@ trainList.sort()
 # valList = ['./data_train/NPR_SRC/NPR_059.nii.gz']
 # testList = ['./data_train/NPR_SRC/NPR_011.nii.gz']
 
-trainList = ['./data_train/RSPET/RS_051.nii.gz',
-             './data_train/RSPET/RS_054.nii.gz',
-             './data_train/RSPET/RS_056.nii.gz',
-             './data_train/RSPET/RS_057.nii.gz']
-valList = ['./data_train/RSPET/RS_059.nii.gz']
+# trainList = ['./data_train/RSPET/RS_051.nii.gz',
+#              './data_train/RSPET/RS_054.nii.gz',
+#              './data_train/RSPET/RS_056.nii.gz',
+#              './data_train/RSPET/RS_057.nii.gz']
+# valList = ['./data_train/RSPET/RS_059.nii.gz']
 testList = ['./data_train/RSPET/RS_011.nii.gz']
+trainList = []
+valList = []
 
 # --------------------------------------------------
 # Training list:  ['./data_train/NPR_SRC/NPR_001.nii.gz', './data_train/NPR_SRC/NPR_007.nii.gz', './data_train/NPR_SRC/NPR_017.nii.gz', './data_train/NPR_SRC/NPR_019.nii.gz', './data_train/NPR_SRC/NPR_024.nii.gz', './data_train/NPR_SRC/NPR_026.nii.gz', './data_train/NPR_SRC/NPR_028.nii.gz', './data_train/NPR_SRC/NPR_029.nii.gz', './data_train/NPR_SRC/NPR_031.nii.gz', './data_train/NPR_SRC/NPR_044.nii.gz', './data_train/NPR_SRC/NPR_057.nii.gz', './data_train/NPR_SRC/NPR_059.nii.gz', './data_train/NPR_SRC/NPR_067.nii.gz', './data_train/NPR_SRC/NPR_068.nii.gz', './data_train/NPR_SRC/NPR_078.nii.gz', './data_train/NPR_SRC/NPR_082.nii.gz', './data_train/NPR_SRC/NPR_095.nii.gz', './data_train/NPR_SRC/NPR_098.nii.gz', './data_train/NPR_SRC/NPR_101.nii.gz', './data_train/NPR_SRC/NPR_103.nii.gz', './data_train/NPR_SRC/NPR_104.nii.gz', './data_train/NPR_SRC/NPR_130.nii.gz', './data_train/NPR_SRC/NPR_138.nii.gz', './data_train/NPR_SRC/NPR_142.nii.gz', './data_train/NPR_SRC/NPR_159.nii.gz']
