@@ -31,7 +31,7 @@ channelY = 1
 block_size = 128
 stride = 64
 
-testList = ['./data_train/X128/test/*.npy']
+testList = './data_train/X128/test/*.npy'
 testList = glob.glob(testList)
 testList.sort()
 folder_pred_cube = "./data_pred/cube/"
