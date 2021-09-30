@@ -72,9 +72,9 @@ for iX in listStart[0]:
             
             # load them into a sequence
             cnt = 0
-            for sX in choice[0]:
-                for sY in choice[1]:
-                    for sZ in choice[2]:
+            for sX in range(len(choice[0])):
+                for sY in range(len(choice[1]):
+                    for sZ in range(len(choice[2]):
                         cordX, cordY, cordZ = listStart[0][sX], listStart[1][sY], listStart[2][sZ]
                         eX, eY, eZ = iX - sX, iY - sY, iZ - sZ
                         cutX = cordX + eX*stride
