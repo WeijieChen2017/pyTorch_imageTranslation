@@ -79,7 +79,7 @@ for iX in listStart[0]:
                         cutX = cordX + eX*stride
                         cutY = cordY + eY*stride
                         cutZ = cordZ + eZ*stride
-                        dataBlock = np.load(pathBlock + "pred_011_{0:03d}_{1:03d}_{2:03d}.npy".format(cordX, cordY, cordZ))
+                        dataBlock = np.load(pathCube + "pred_011_{0:03d}_{1:03d}_{2:03d}.npy".format(cordX, cordY, cordZ))
                         cubeSeq[cnt, :, :, :] = dataBlock[eX * stride : (eX+1) * stride,
                                                           eY * stride : (eY+1) * stride,
                                                           eZ * stride : (eZ+1) * stride]
