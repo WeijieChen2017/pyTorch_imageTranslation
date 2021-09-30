@@ -68,7 +68,8 @@ for iX in listStart[0]:
                         subChoice.append(s)
                 choice.append(subChoice)
             cubeSeq = np.zeros((len(choice[0])*len(choice[1])*len(choice[2]), stride, stride, stride))
-
+            print("Choice for three directions: ", choice)
+            
             # load them into a sequence
             cnt = 0
             for sX in choice[0]:
