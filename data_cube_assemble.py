@@ -53,9 +53,9 @@ for lenDim in dataSize:
 
 numCube = len(listStart[0])*len(listStart[1])*len(listStart[2])
 cntCube = 0
-for iX in range(listStart[0]):
-    for iY in range(listStart[1]):
-        for iZ in range(listStart[2]):
+for iX in listStart[0]:
+    for iY in listStart[1]:
+        for iZ in listStart[2]:
             assmX, assmY, assmZ = iX*stride, iY*stride, iZ*stride
             
             # generate the relative cube list
