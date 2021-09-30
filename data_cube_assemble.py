@@ -6,11 +6,8 @@ import os
 def merge_block(blockSeq):
     return np.mean(blockSeq, axis=0)
 
-def normY(data):
-    data[data<-1000] = -1000
-    data[data>3000] = 3000
-    data = (data + 1000) / 4000
-    return data
+def denormY(data):
+    return data * 4000 - 1000
 
 def remove_pad(dataPad, dataSize, blockSize, stride):
     padWidth = []
@@ -89,6 +86,7 @@ for iX in range(len(listStart[0])):
             print("==> Finish[{:3d}]/[{:3d}]: ".format(cntCube, numCube), assmX, assmY, assmZ)
             cntCube += 1
 
+np.save("predAssm.npy", predAssm)
 dataCut = remove_pad(predAssm, dataSize, blockSize, stride)
 dataDiff = dataPred - dataCut
 predFile = nib.Nifti1Image(dataCut, filePred.affine, filePred.header)
