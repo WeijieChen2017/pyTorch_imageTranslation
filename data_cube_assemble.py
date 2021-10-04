@@ -84,7 +84,7 @@ for iX in range(len(listStart[0])):
                                                           eZ * stride : (eZ+1) * stride]
             # assembly the seq
             predAssm[assmX:assmX+stride, assmY:assmY+stride, assmZ:assmZ+stride] = merge_block(cubeSeq)
-            print("==> Finish[{:3d}]/[{:3d}]: ".format(cntCube, numCube), assmX, assmY, assmZ)
+            print("==> Finish[{}]/[{}]: ".format(cntCube, numCube), assmX, assmY, assmZ)
             cntCube += 1
 
 # dataCut = np.load("predAssm.npy")
